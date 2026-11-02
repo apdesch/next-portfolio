@@ -1,24 +1,164 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary-dark: #141414;
+  --color-primary-light: #f3e8e2;
+  --color-highlight: #935c06;
+  --color-highlight-dark: #d99326;
+
+  /* The original design has a single breakpoint. */
+  --breakpoint-*: initial;
+  --breakpoint-desktop: 54em;
+
+  --text-compact: 0.8em;
+  --text-fluid: calc(0.35vw + 0.5em);
+
+  --text-shadow-chromatic:
+    1.5px 0 2px rgb(255 0 0 / 0.8), 2px 0 2px rgb(255 255 0 / 0.8),
+    -2px 0 2px rgb(39 125 255 / 0.6), -1.5px 0 2px rgb(0 255 255 / 0.8);
+
+  /* "both" holds the first keyframe during a delay, so staggered items start hidden. */
+  --animate-fade-in: fade-in 1s ease-out both;
+  --animate-peek-up: peek-up 500ms ease-out both;
+  --animate-peek-down: peek-down 500ms ease-out both;
+  --animate-wipe-left: wipe-left 1.2s ease-out 200ms both;
+  --animate-pop-in: pop-in 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  --animate-tilt: tilt 250ms ease-in 500ms both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes peek-up {
+    from {
+      clip-path: inset(0 0 100% 0);
+      transform: translateY(100%);
+    }
+    to {
+      clip-path: inset(0);
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes peek-down {
+    from {
+      clip-path: inset(100% 0 0 0);
+      transform: translateY(-100%);
+    }
+    to {
+      clip-path: inset(0);
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes wipe-left {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0);
+    }
+  }
+
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.1);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes tilt {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(-5deg);
+    }
+  }
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* One step for every staggered entrance (nav links, social icons). */
+  --stagger-step: 200ms;
+  --background: var(--color-primary-light);
+  --foreground: var(--color-primary-dark);
+  --selection: var(--color-highlight);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-primary-dark);
+    --foreground: var(--color-primary-light);
+    --selection: var(--color-highlight-dark);
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-poppins), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Two backgrounds stacked: the dark overlay on top of the photo, so text stays readable. */
+@utility dark-backdrop {
+  background-image:
+    linear-gradient(hsl(0 0% 5% / 0.6), hsl(0 0% 5% / 0.6)),
+    url("/images/alta-plaza.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+@layer base {
+  html {
+    background-color: var(--background);
+    color: var(--foreground);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    color: var(--selection);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 400;
+    text-rendering: geometricPrecision;
+  }
+
+  h1 {
+    font-size: 2.4em;
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    margin-block: 1em;
+    line-height: calc(1ex / 0.32);
+  }
+
+  li {
+    line-height: 1.6;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+/* Users who turn off motion see every element in its final state immediately. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
 }
