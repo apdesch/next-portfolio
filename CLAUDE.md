@@ -68,8 +68,18 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Booleans start with `is`, `has` or `should`.
 - One job per function. If a function needs a comment to explain what it does, split or rename it.
 - Early returns instead of nested `if`/`else`. No nested ternaries.
+- An `if` with a single short statement stays on one line without braces:
+  `if (!isHomePage) return null;`. Use braces when the body spans more than one line.
 - Comments only explain _why_, never _what_.
 - TypeScript: no `any`. Exported functions have explicit return types.
+- Functions are always `const` arrow functions: `const getProjects = (): Project[] => …`.
+  Never `function getProjects()`.
+- React components are typed with `FC`: `const SiteHeader: FC<SiteHeaderProps> = (props) => …`.
+- Every module ends with one `export default name;`, never `export default` on the declaration
+  and never `export const`. Named exports are allowed only for TypeScript types and for the
+  exports Next.js requires in `src/app/` (`metadata`, `generateMetadata`, `viewport`,
+  `generateViewport`, `generateStaticParams`).
+- ESLint enforces the three rules above.
 
 ## No bloat (required)
 

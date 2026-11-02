@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import type { JSX } from "react";
+import type { FC } from "react";
 import { Poppins } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
+import SiteHeader from "@/components/site-header";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -11,13 +11,11 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Adam Deschamp",
+  title: { default: "Adam Deschamp", template: "%s | Adam Deschamp" },
   description: "Portfolio of Adam Deschamp, software engineer.",
 };
 
-export default function RootLayout({
-  children,
-}: LayoutProps<"/">): JSX.Element {
+const RootLayout: FC<LayoutProps<"/">> = ({ children }) => {
   return (
     <html lang="en" className={`${poppins.variable} antialiased`}>
       <body className="font-sans">
@@ -32,4 +30,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

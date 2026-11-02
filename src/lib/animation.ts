@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 
-export function getStaggerDelayStyle(position: number): CSSProperties {
-  return { animationDelay: `calc(${position} * var(--stagger-step))` };
-}
+const getStaggerDelayStyle = (position: number): CSSProperties => ({
+  animationDelay: `calc(${position} * var(--stagger-step))`,
+});
+
+export default getStaggerDelayStyle;

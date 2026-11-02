@@ -1,14 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import type { JSX } from "react";
+import type { FC } from "react";
 
-export function HomeIntro(): JSX.Element | null {
+const HomeIntro: FC = () => {
   const isHomePage = usePathname() === "/";
 
-  if (!isHomePage) {
-    return null;
-  }
+  if (!isHomePage) return null;
 
   return (
     <div className="relative animate-wipe-left self-center text-justify text-[1.1em] [&>p]:mx-[1em] desktop:[&>p]:max-w-[24em]">
@@ -19,4 +17,6 @@ export function HomeIntro(): JSX.Element | null {
       <p>Open to new engineering roles. Get in touch.</p>
     </div>
   );
-}
+};
+
+export default HomeIntro;

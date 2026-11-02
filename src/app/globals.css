@@ -148,6 +148,17 @@
     line-height: calc(1ex / 0.32);
   }
 
+  /* Browser defaults the original design relied on, which Tailwind's reset removes. */
+  h2 {
+    font-size: 1.5em;
+  }
+
+  ul {
+    list-style: disc;
+    margin-block: 1em;
+    padding-inline-start: 40px;
+  }
+
   li {
     line-height: 1.6;
   }
