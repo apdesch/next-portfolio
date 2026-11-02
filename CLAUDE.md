@@ -7,6 +7,9 @@ I'm an experienced React/TypeScript engineer returning after six years away.
 When you use a concept that is new since 2020 (Server Components, Server Actions,
 Tailwind v4, App Router conventions), explain it in two or three sentences.
 
+IMPORTANT: My name is Adam Deschamp. Always spell it exactly this way in code, metadata,
+copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain are fine as is).
+
 ## Stack
 - Next.js 16 (App Router), TypeScript strict, Tailwind CSS v4, pnpm
 - Later stages: Postgres (Neon) + Drizzle, Better Auth, Zod, Vitest, Playwright
@@ -52,6 +55,7 @@ Tailwind v4, App Router conventions), explain it in two or three sentences.
 ## How to work with me
 - Plan first. Before writing code, list the files you will create or change and why. Wait for my OK.
 - Keep each change small enough for me to review in a few minutes.
+- Never commit without my approval. Show me the diff and proposed message, then wait for my OK.
 - After changes, run `pnpm lint`, `pnpm typecheck` and `pnpm build` (and tests once they exist),
   then summarize what changed in plain language.
 - If you are unsure about a requirement, ask instead of guessing.
