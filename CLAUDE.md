@@ -38,7 +38,7 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - If the modern stack forces a visible difference, tell me and ask before shipping it.
 - Approved addition: page transitions using React's `<ViewTransition>` (browser View Transitions
   API). Keep them subtle and in keeping with the original design. Pages must still work in browsers
-  without support.
+  without support. Build them only in the final polish stage (see build order).
 
 ## Admin design (required)
 
@@ -54,6 +54,7 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 2. Move project content into Postgres with Drizzle.
 3. Admin area: sign-in, create/edit projects, image upload. Starts with three or more locally
    runnable design options (dark mode required), and building waits for my approval.
+4. Polish: page transitions, once the design is complete and every feature works.
 
 ## Code style (required)
 
@@ -84,6 +85,8 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Keep each change small enough for me to review in a few minutes.
 - If you find a security issue or edge case, stop and tell me before moving forward, with
   possible fixes and their trade-offs. Let me choose.
+- Feature work (pages, API, auth, admin) happens on a new branch, not on the setup branch.
+- Keep work local (no push, no PR) until I've seen it running on my machine and say otherwise.
 - Never commit without my approval. Show me the diff and proposed message, then wait for my OK.
 - After changes, run `pnpm lint`, `pnpm typecheck` and `pnpm build` (and tests once they exist),
   then summarize what changed in plain language.
