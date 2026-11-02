@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
 import { Poppins } from "next/font/google";
-import SiteHeader from "@/components/site-header";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -15,21 +14,18 @@ export const metadata: Metadata = {
   description: "Portfolio of Adam Deschamp, software engineer.",
 };
 
-const RootLayout: FC<LayoutProps<"/">> = ({ children }) => {
-  return (
-    <html lang="en" className={`${poppins.variable} antialiased`}>
-      <body className="font-sans">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 -z-10 hidden dark-backdrop dark:block"
-        />
-        <div className="flex min-h-screen w-full animate-fade-in flex-col items-center justify-around px-[1em] text-compact desktop:px-0 desktop:text-fluid">
-          <SiteHeader />
-          {children}
-        </div>
-      </body>
-    </html>
-  );
-};
+const RootLayout: FC<LayoutProps<"/">> = ({ children }) => (
+  <html lang="en" className={`${poppins.variable} antialiased`}>
+    <body className="font-sans">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 hidden dark-backdrop dark:block"
+      />
+      <div className="flex min-h-screen w-full animate-fade-in flex-col items-center justify-around px-[1em] text-compact desktop:px-0 desktop:text-fluid">
+        {children}
+      </div>
+    </body>
+  </html>
+);
 
 export default RootLayout;

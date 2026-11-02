@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { FC } from "react";
 import HomeIntro from "@/components/home-intro";
+import SiteTitle from "@/components/site-title";
 import SocialLinks from "@/components/social-links";
 import getStaggerDelayStyle from "@/lib/animation";
 
@@ -12,11 +13,7 @@ const navigationLinks = [
 const SiteHeader: FC = () => (
   <header className="flex flex-col items-center justify-center">
     {/* Not an h1: each page has its own h1, and the title appears on every page. */}
-    <div className="animate-peek-up py-[0.4em] text-[6em] leading-[1.3] font-semibold text-shadow-chromatic">
-      <Link href="/" className="block origin-right animate-tilt">
-        apdesch
-      </Link>
-    </div>
+    <SiteTitle />
     <nav className="flex w-full justify-evenly pt-[3em] pb-[2em]">
       {navigationLinks.map((navigationLink, index) => (
         <Link
