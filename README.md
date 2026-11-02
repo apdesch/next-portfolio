@@ -12,6 +12,9 @@ pnpm dev        # http://localhost:3000
 ## Checks
 
 ```bash
+pnpm format:check
 pnpm lint
+pnpm typecheck
+pnpm knip
 pnpm build
 ```
