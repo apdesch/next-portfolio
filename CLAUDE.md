@@ -26,10 +26,26 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
   2. Add apdesch.com to the Vercel project and update DNS records.
   3. Confirm the new site works on the domain, then I shut down the Droplet and close DigitalOcean.
 
+## Design (required)
+- Public site: keep my original design. I designed it myself. Match the old portfolio's look
+  (layout, colours, typography, spacing, interactions) as closely as possible. Modernise the code,
+  not the visual design.
+- The old repo is the design reference: rebuild its look in Tailwind v4, don't copy its code or CSS.
+- New public features must follow the existing design principles. Don't introduce a new visual style.
+- If the modern stack forces a visible difference, tell me and ask before shipping it.
+
+## Admin design (required)
+- The admin area can be redesigned from scratch. It must support dark mode.
+- Before building, present at least three distinct design options, each runnable in a local build
+  I can open and click through.
+- Do not build on any admin design until I have seen the options running locally and approved one.
+
 ## Build order (do not jump ahead)
-1. Public pages only. Project content lives in a typed TypeScript file. No database, no auth.
+1. Public pages only, matching the original design. Project content lives in a typed TypeScript
+   file. No database, no auth.
 2. Move project content into Postgres with Drizzle.
-3. Admin area: sign-in, create/edit projects, image upload.
+3. Admin area: sign-in, create/edit projects, image upload. Starts with three or more locally
+   runnable design options (dark mode required), and building waits for my approval.
 
 ## Code style (required)
 - Functional style. No classes. Prefer pure functions that take input and return output.
