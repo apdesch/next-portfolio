@@ -67,7 +67,12 @@ All colours come from one hue (20) and a single amber accent.
   - Skills are inline uppercase "chips" at `0.9em`: inverted colours (text colour as background), 2px radius.
 - **Videos:** responsive 16:9 YouTube embeds (`youtube-nocookie.com`), each with a caption below, right-aligned at `1.1em`.
 - **Photo galleries:** grouped by category, a justified row layout (target row height 150px), and a click-to-open lightbox with fullscreen, slideshow and zoom.
-- **About:** square portrait (`portrait.jpg`, 960×960), then a bio aligned right, then skills in two columns (engineering, video production).
+- **About** (redesigned November 2026):
+  - Large screens: the portrait in a left column about a third wide, with the bio and highlights beside it.
+  - Phones: stacked, with the photo capped at `20em`.
+  - Skills: two columns (engineering, video production) of chips in the same style as the project skill chips.
+  - The chips pop in as they scroll into view (CSS scroll-driven animation, `animate-pop-in-on-view`). There's no animation in browsers without support, or with reduced motion turned on.
+  - The original layout was a full-width portrait, then a bio aligned right, then plain skill lists.
 - **Resume:** a section per company with an `h2` and a bullet list. An "Acquired" badge sits next to some company names:
   - `11px`, uppercase, `0.4em` radius, `0 10px` padding
   - light background with dark text

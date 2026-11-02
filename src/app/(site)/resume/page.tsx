@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
+import ContentCard from "@/components/content-card";
+import PageContent from "@/components/page-content";
 import resume, { type ResumeEntry, type YearMonth } from "@/content/resume";
 
 const monthYearFormat = new Intl.DateTimeFormat("en-US", {
@@ -37,7 +39,7 @@ const ResumeSection: FC<ResumeEntryProps> = ({ entry }) => (
     <h2>
       {entry.organization}
       {entry.isAcquired && (
-        <span className="ml-[0.5em] inline-block rounded-[0.4em] bg-primary-light px-[10px] align-middle text-[11px] leading-[2] text-primary-dark uppercase">
+        <span className="ml-[0.5em] inline-block rounded-[0.4em] bg-primary-light px-2.5 align-middle text-[11px] leading-loose text-primary-dark uppercase">
           Acquired
         </span>
       )}
@@ -57,10 +59,10 @@ const ResumeSection: FC<ResumeEntryProps> = ({ entry }) => (
 );
 
 const ResumePage: FC = () => (
-  <main className="flex w-full max-w-[58em] flex-col py-[4em]">
+  <PageContent>
     <article className="mb-[3em]">
       <h1 className="uppercase">Resume</h1>
-      <div className="p-[1.5em] dark:bg-primary-dark/50 dark:backdrop-blur-[40px]">
+      <ContentCard>
         {resume.experience.map((entry) => (
           <ResumeSection key={entry.organization} entry={entry} />
         ))}
@@ -68,9 +70,9 @@ const ResumePage: FC = () => (
         {resume.education.map((entry) => (
           <ResumeSection key={entry.organization} entry={entry} />
         ))}
-      </div>
+      </ContentCard>
     </article>
-  </main>
+  </PageContent>
 );
 
 export const metadata: Metadata = {
