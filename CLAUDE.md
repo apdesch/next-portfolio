@@ -34,6 +34,8 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
   (layout, colours, typography, spacing, interactions) as closely as possible. Modernise the code,
   not the visual design.
 - The old repo is the design reference: rebuild its look in Tailwind v4, don't copy its code or CSS.
+- Typography matters: titles must have a clear hierarchy. A heading is always smaller than the
+  heading of the section that contains it. See "Hierarchy" in `docs/design.md`.
 - New public features must follow the existing design principles. Don't introduce a new visual style.
 - If the modern stack forces a visible difference, tell me and ask before shipping it.
 - Approved addition: page transitions using React's `<ViewTransition>` (browser View Transitions

@@ -4,23 +4,15 @@ import type { FC } from "react";
 import portrait from "@/assets/portrait.jpg";
 import ContentCard from "@/components/content-card";
 import PageContent from "@/components/page-content";
+import SkillChips from "@/components/skill-chips";
 import about from "@/content/about";
 
-const SkillChips: FC = () => (
+const SkillGroups: FC = () => (
   <section className="grid gap-[2em] desktop:col-span-2 desktop:grid-cols-2">
     {about.skillGroups.map((skillGroup) => (
       <div key={skillGroup.heading}>
         <h2 className="mb-[0.5em] uppercase">{skillGroup.heading}</h2>
-        <ul className="m-0 flex list-none flex-wrap gap-[0.5em] p-0 text-[0.9em] uppercase">
-          {skillGroup.skills.map((skill) => (
-            <li
-              key={skill}
-              className="animate-pop-in-on-view rounded-xs bg-foreground px-[0.4em] text-background"
-            >
-              {skill}
-            </li>
-          ))}
-        </ul>
+        <SkillChips skills={skillGroup.skills} />
       </div>
     ))}
   </section>
@@ -48,7 +40,7 @@ const AboutPage: FC = () => (
             ))}
           </ul>
         </section>
-        <SkillChips />
+        <SkillGroups />
       </ContentCard>
     </article>
   </PageContent>

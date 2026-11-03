@@ -42,13 +42,14 @@ All colours come from one hue (20) and a single amber accent.
 - **Font:** Poppins, weights 400, 600 and 800, for the whole public site. The body fallback is the system font stack.
 - **Fluid base size:** `calc(0.35vw + 0.5em)` on the layout, dropping to `0.8em` below `54em`. All other sizes are `em`, so everything scales with the viewport.
 - **Headings:** weight 400 by default, `text-rendering: geometricPrecision`, no margin.
+- **Hierarchy (required):** typography matters. Heading sizes must step down with nesting: a heading is never as large as, or larger than, the heading of the section it sits in. Section titles (`h1`, `2.4em`) are always bigger than titles inside them (project, company and skill-group `h2`s). The original site broke this rule: project titles were `3em`, larger than their section title.
 
 | Element               | Size    | Weight | Other                                                                                        |
 | --------------------- | ------- | ------ | -------------------------------------------------------------------------------------------- |
 | Site title "apdesch"  | `6em`   | 600    | Chromatic-aberration text shadow (red, yellow, blue, cyan offsets), line height 1.3          |
 | Page `h1`             | `2.4em` | 400    | Uppercase, `0.5em` bottom margin                                                             |
 | Global nav links      | `1.8em` | 400    | Uppercase                                                                                    |
-| Project title `h2`    | `3em`   | 400    |                                                                                              |
+| Project title `h2`    | `2em`   | 400    | Below the `2.4em` section title (the original `3em` broke the hierarchy)                     |
 | Project subtitle `h4` | `1.1em` | 400    |                                                                                              |
 | Paragraphs            |         |        | Line height `calc(1ex / 0.32)`, max width `24em` in the header, justified in blurb and About |
 | List items            |         |        | Line height 1.6                                                                              |
