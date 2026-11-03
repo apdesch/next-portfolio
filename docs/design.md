@@ -130,6 +130,26 @@ There are also `wipeRight` and `slightZoomOut` keyframes, but nothing uses them.
 10. **Placeholder images:** placehold.co, requested as PNG (not its default SVG). `next.config.ts` allows only `https://placehold.co`. Removed when real images arrive.
 11. **Engineering skills:** the existing list, then Next.js, Tailwind CSS, Playwright and "AI-assisted development (Claude Code)" added at the end.
 
-## Open questions (need your decision)
+12. **Gallery and lightbox:** custom, with no dependencies. Justified rows in CSS (`--gallery-row-height`), and a lightbox built on the native `<dialog>` element (previous/next, arrow keys, Esc, fullscreen; no zoom or slideshow).
 
-1. **Gallery and lightbox.** These need either two dependencies (a photo-album layout and a lightbox) or custom code. I'll propose options when we reach the Portfolio page.
+## SEO
+
+- **Robots (`src/app/robots.ts`):** all crawlers allowed, except AI training crawlers (GPTBot, ClaudeBot, anthropic-ai, Google-Extended, Applebot-Extended, CCBot, Bytespider, meta-externalagent). AI search crawlers (OAI-SearchBot, PerplexityBot) stay allowed, so the site can appear in AI search answers. robots.txt is honoured by reputable crawlers but not enforced; Vercel Firewall bot rules can enforce it later.
+- **Old `noai` / `noimageai` meta tags:** dropped. They're non-standard, and robots.txt replaces them.
+- **Sitemap (`src/app/sitemap.ts`):** `/`, `/resume`, `/about`.
+- **Page metadata:** every page builds its title, description, canonical URL and Open Graph tags with `getPageMetadata` (`src/lib/page-metadata.ts`). Next merges metadata shallowly, so pages can't inherit Open Graph fields.
+- **Share image (`src/app/opengraph-image.tsx`):** 1200×630. It shows the dark mode photo under the overlay, with "apdesch" in Poppins (tilted, chromatic shadow) and "Adam Deschamp · Software Engineer".
+  - It uses a 1200×675 copy of the photo (`src/assets/share-background.jpg`) to stay under `ImageResponse`'s 500KB limit.
+  - The image renderer (Satori) can't use Tailwind classes or CSS variables, so its colours are inline copies of the `globals.css` tokens.
+- **Structured data:** a JSON-LD `Person` (name, job title, San Francisco, social profiles) on the home page.
+
+## Planned: project detail pages (not scheduled)
+
+A possible future feature: a detailed post for each project. Nothing is built yet; this records how it fits the SEO setup.
+
+- **Route:** `src/app/(site)/projects/[slug]/page.tsx`, prerendered with `generateStaticParams` from project content (published projects only).
+- **Content:** projects gain a `slug` and a post body when the feature is built.
+- **Metadata:** `generateMetadata` reuses `getPageMetadata` with the project's title, description and `/projects/{slug}` path. It passes the project's own share image instead of the site image.
+- **Share image:** `src/app/(site)/projects/[slug]/opengraph-image.tsx` renders the project thumbnail and title in the same style as the site share image, so links shared on LinkedIn, Slack or iMessage show that project.
+- **Sitemap:** project URLs generated from published projects.
+- **Edge case:** social platforms cache previews. After changing a project's image or title, refresh the preview with LinkedIn's Post Inspector or the platform's equivalent.

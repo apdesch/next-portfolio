@@ -33,7 +33,7 @@ const valueExportRestriction = {
 
 // Next.js only reads these when they are named exports of a page or layout.
 const nextRequiredExportNames =
-  "metadata|generateMetadata|viewport|generateViewport|generateStaticParams";
+  "metadata|generateMetadata|viewport|generateViewport|generateStaticParams|alt|size|contentType";
 
 const eslintConfig = defineConfig([
   ...nextVitals,

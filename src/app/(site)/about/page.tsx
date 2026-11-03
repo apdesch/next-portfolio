@@ -5,6 +5,7 @@ import portrait from "@/assets/portrait.jpg";
 import ContentCard from "@/components/content-card";
 import PageContent from "@/components/page-content";
 import SkillChips from "@/components/skill-chips";
+import getPageMetadata from "@/lib/page-metadata";
 import about from "@/content/about";
 
 const SkillGroups: FC = () => (
@@ -46,8 +47,11 @@ const AboutPage: FC = () => (
   </PageContent>
 );
 
-export const metadata: Metadata = {
-  title: "About",
-};
+export const metadata: Metadata = getPageMetadata({
+  pageName: "About",
+  description:
+    "Adam Deschamp is a software engineer in San Francisco with over a decade of experience building web applications.",
+  path: "/about",
+});
 
 export default AboutPage;

@@ -3,6 +3,7 @@ import type { FC } from "react";
 import ContentCard from "@/components/content-card";
 import PageContent from "@/components/page-content";
 import resume, { type ResumeEntry, type YearMonth } from "@/content/resume";
+import getPageMetadata from "@/lib/page-metadata";
 
 const monthYearFormat = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -75,8 +76,11 @@ const ResumePage: FC = () => (
   </PageContent>
 );
 
-export const metadata: Metadata = {
-  title: "Resume",
-};
+export const metadata: Metadata = getPageMetadata({
+  pageName: "Resume",
+  description:
+    "Resume of Adam Deschamp: front end and software engineering roles at Kapwing, Total Brain, Barn & Willow, Elation Health and Mya Systems.",
+  path: "/resume",
+});
 
 export default ResumePage;

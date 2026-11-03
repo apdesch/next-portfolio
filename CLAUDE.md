@@ -80,7 +80,8 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Every module ends with one `export default name;`, never `export default` on the declaration
   and never `export const`. Named exports are allowed only for TypeScript types and for the
   exports Next.js requires in `src/app/` (`metadata`, `generateMetadata`, `viewport`,
-  `generateViewport`, `generateStaticParams`).
+  `generateViewport`, `generateStaticParams`, and `alt`, `size`, `contentType` in
+  `opengraph-image.tsx`).
 - ESLint enforces the three rules above.
 
 ## No bloat (required)

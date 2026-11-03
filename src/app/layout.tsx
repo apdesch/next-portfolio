@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
 import { Poppins } from "next/font/google";
+import siteUrl from "@/lib/site-url";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -9,7 +10,9 @@ const poppins = Poppins({
   weight: ["400", "600"],
 });
 
+// Pages set full titles through getPageMetadata; the template covers the 404 page.
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: { default: "Adam Deschamp", template: "%s | Adam Deschamp" },
   description: "Portfolio of Adam Deschamp, software engineer.",
 };
