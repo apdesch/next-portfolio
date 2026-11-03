@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 // ImageResponse renders with Satori, which can't use Tailwind classes or CSS variables,
-// so values are inline. Colours mirror --color-* in globals.css.
+// so values are inline. Colors mirror --color-* in globals.css.
 const primaryLight = "#f3e8e2";
 const darkOverlay = "rgba(13, 13, 13, 0.6)";
 const chromaticTextShadow =

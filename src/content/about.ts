@@ -12,7 +12,7 @@ type About = {
 const about: About = {
   bio: [
     "I'm a software engineer from San Francisco with over a decade of experience building web applications across social media, photography, content creation, e-commerce, healthcare and gaming. I have a degree in Web Design and Interactive Media from The Art Institute of California – San Francisco.",
-    "I also work in video production: editing, cinematography, colour grading and sound design.",
+    "I also work in video production: editing, cinematography, color grading and sound design.",
     "I'm now looking for my next engineering role.",
   ],
   highlights: [
@@ -40,7 +40,7 @@ const about: About = {
     },
     {
       heading: "Video Production",
-      skills: ["Editing", "Cinematography", "Colour Grading", "Sound Design"],
+      skills: ["Editing", "Cinematography", "Color Grading", "Sound Design"],
     },
   ],
 };

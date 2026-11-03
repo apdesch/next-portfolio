@@ -31,7 +31,7 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 ## Design (required)
 
 - Public site: keep my original design. I designed it myself. Match the old portfolio's look
-  (layout, colours, typography, spacing, interactions) as closely as possible. Modernise the code,
+  (layout, colors, typography, spacing, interactions) as closely as possible. Modernize the code,
   not the visual design.
 - The old repo is the design reference: rebuild its look in Tailwind v4, don't copy its code or CSS.
 - Typography matters: titles must have a clear hierarchy. A heading is always smaller than the

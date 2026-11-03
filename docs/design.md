@@ -16,25 +16,25 @@ Tailwind v4 `@theme` tokens once approved.
 Every public page shares one layout: the header block (title, nav, social links) sits above the page
 content. The intro blurb shows only on `/`.
 
-## Colour
+## Color
 
-All colours come from one hue (20) and a single amber accent.
+All colors come from one hue (20) and a single amber accent.
 
 | Token            | Original value            | Hex       | Use                                                             |
 | ---------------- | ------------------------- | --------- | --------------------------------------------------------------- |
 | `primary-dark`   | `hsl(20 0% 8%)`           | `#141414` | Light mode text; dark mode background                           |
 | `primary-darker` | `hsl(20 0% 0%)` (clamped) | `#000000` | Button text                                                     |
 | `primary-light`  | `hsl(20 40% 92%)`         | `#f3e8e2` | Light mode background (warm off-white); dark mode text; buttons |
-| `highlight`      | `hsl(36.6 92.2% 30%)`     | `#935c06` | Text selection colour, light mode                               |
-| `highlight-dark` | `hsl(36.5 70.2% 50%)`     | `#d99326` | Text selection colour, dark mode                                |
+| `highlight`      | `hsl(36.6 92.2% 30%)`     | `#935c06` | Text selection color, light mode                                |
+| `highlight-dark` | `hsl(36.5 70.2% 50%)`     | `#d99326` | Text selection color, dark mode                                 |
 
 - Light mode: warm off-white background, near-black text.
 - Dark mode (follows the OS setting, no toggle):
-  - Colours invert: near-black background, off-white text.
+  - Colors invert: near-black background, off-white text.
   - The whole page shows `alta-plaza.jpg` (1920×1080) as a fixed, full-cover background photo.
   - Content sits on a dark overlay, `hsla(0 0% 5% / 0.6)`.
   - Content cards on About and Resume are frosted glass: `hsla(20 0% 8% / 0.5)` with `backdrop-filter: blur(40px)`.
-- Selecting text recolours it with the amber accent but keeps the background.
+- Selecting text recolors it with the amber accent but keeps the background.
 - Custom WebKit scrollbar: dark track; thumb `hsla(53 23% 79% / 0.4)`, 10px radius, 4px dark border.
 
 ## Typography
@@ -65,7 +65,7 @@ All colours come from one hue (20) and a single amber accent.
 - **Project entry:**
   - A two-column grid with the image and text side by side, bottom-aligned with a `1em` gap.
   - `direction: rtl` puts the image on the right; the text sections reset to left-to-right.
-  - Skills are inline uppercase "chips" at `0.9em`: inverted colours (text colour as background), 2px radius.
+  - Skills are inline uppercase "chips" at `0.9em`: inverted colors (text color as background), 2px radius.
 - **Videos:** responsive 16:9 YouTube embeds (`youtube-nocookie.com`), each with a caption below, right-aligned at `1.1em`.
 - **Photo galleries:** grouped by category, a justified row layout (target row height 150px), and a click-to-open lightbox with fullscreen, slideshow and zoom.
 - **About** (redesigned November 2026):
@@ -115,12 +115,12 @@ There are also `wipeRight` and `slightZoomOut` keyframes, but nothing uses them.
 8. **About bio:** video production and engineering are kept separate, so the bio doesn't link them.
    > I'm a software engineer from San Francisco with over a decade of experience building web applications across social media, photography, content creation, e-commerce, healthcare and gaming. I have a degree in Web Design and Interactive Media from The Art Institute of California – San Francisco.
    >
-   > I also work in video production: editing, cinematography, colour grading and sound design.
+   > I also work in video production: editing, cinematography, color grading and sound design.
    >
    > I'm now looking for my next engineering role.
 9. **Resume:** take the work history from the November 2026 resumes, newest first:
    - **Portfolio rebuild:** this project (Next.js 16, TypeScript, Postgres/Drizzle, auth, CI/CD on Vercel).
-   - **Video Production:** January 2021 – present. Editing, cinematography, colour grading, sound design.
+   - **Video Production:** January 2021 – present. Editing, cinematography, color grading, sound design.
    - **RIMOWA, Client Care Specialist:** December 2023 – November 2026, with all three bullets from the resume.
    - **Engineering roles:** as on the resume, keeping the "Acquired" badge on Total Brain (SonderMind) and Mya Systems (StepStone). Use these details:
      - Barn & Willow: "10x increase in monthly revenue"
@@ -134,13 +134,13 @@ There are also `wipeRight` and `slightZoomOut` keyframes, but nothing uses them.
 
 ## SEO
 
-- **Robots (`src/app/robots.ts`):** all crawlers allowed, except AI training crawlers (GPTBot, ClaudeBot, anthropic-ai, Google-Extended, Applebot-Extended, CCBot, Bytespider, meta-externalagent). AI search crawlers (OAI-SearchBot, PerplexityBot) stay allowed, so the site can appear in AI search answers. robots.txt is honoured by reputable crawlers but not enforced; Vercel Firewall bot rules can enforce it later.
+- **Robots (`src/app/robots.ts`):** all crawlers allowed, except AI training crawlers (GPTBot, ClaudeBot, anthropic-ai, Google-Extended, Applebot-Extended, CCBot, Bytespider, meta-externalagent). AI search crawlers (OAI-SearchBot, PerplexityBot) stay allowed, so the site can appear in AI search answers. robots.txt is honored by reputable crawlers but not enforced; Vercel Firewall bot rules can enforce it later.
 - **Old `noai` / `noimageai` meta tags:** dropped. They're non-standard, and robots.txt replaces them.
 - **Sitemap (`src/app/sitemap.ts`):** `/`, `/resume`, `/about`.
 - **Page metadata:** every page builds its title, description, canonical URL and Open Graph tags with `getPageMetadata` (`src/lib/page-metadata.ts`). Next merges metadata shallowly, so pages can't inherit Open Graph fields.
 - **Share image (`src/app/opengraph-image.tsx`):** 1200×630. It shows the dark mode photo under the overlay, with "apdesch" in Poppins (tilted, chromatic shadow) and "Adam Deschamp · Software Engineer".
   - It uses a 1200×675 copy of the photo (`src/assets/share-background.jpg`) to stay under `ImageResponse`'s 500KB limit.
-  - The image renderer (Satori) can't use Tailwind classes or CSS variables, so its colours are inline copies of the `globals.css` tokens.
+  - The image renderer (Satori) can't use Tailwind classes or CSS variables, so its colors are inline copies of the `globals.css` tokens.
 - **Structured data:** a JSON-LD `Person` (name, job title, San Francisco, social profiles) on the home page.
 
 ## Planned: project detail pages (not scheduled)

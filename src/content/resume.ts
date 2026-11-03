@@ -35,7 +35,7 @@ const experience: readonly ResumeEntry[] = [
     isAcquired: false,
     startDate: { year: 2021, month: 1 },
     endDate: null,
-    highlights: ["Editing, cinematography, colour grading and sound design."],
+    highlights: ["Editing, cinematography, color grading and sound design."],
   },
   {
     organization: "RIMOWA",
