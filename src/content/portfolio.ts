@@ -11,22 +11,14 @@ export type Photo = {
   height: number;
 };
 
-export type Project = {
-  title: string;
-  description: string;
-  skills: readonly string[];
-  image: Photo;
-  paragraphs: readonly string[];
-};
-
 type Gallery = {
   category: string;
   photos: readonly Photo[];
 };
 
+// Projects live in Postgres (src/db); videos and galleries move there in a later step.
 type Portfolio = {
   videos: readonly Video[];
-  projects: readonly Project[];
   galleries: readonly Gallery[];
 };
 
@@ -44,20 +36,6 @@ const createPlaceholderPhoto = (
   alt: label,
   width,
   height,
-});
-
-const createPlaceholderProject = (projectNumber: number): Project => ({
-  title: `Placeholder Project ${projectNumber}`,
-  description: "One-line description of the project.",
-  skills: ["React", "TypeScript"],
-  image: createPlaceholderPhoto(
-    1200,
-    800,
-    `Placeholder project ${projectNumber}`,
-  ),
-  paragraphs: [
-    "Placeholder text: what the project is, the problem it solved and my role in building it.",
-  ],
 });
 
 const createPlaceholderGallery = (
@@ -83,7 +61,6 @@ const portfolio: Portfolio = {
       caption: "The Palace of Fine Arts in San Francisco shot on an iPhone.",
     },
   ],
-  projects: [1, 2, 3].map(createPlaceholderProject),
   galleries: [
     createPlaceholderGallery("Placeholder Gallery 1", [
       [1200, 800],

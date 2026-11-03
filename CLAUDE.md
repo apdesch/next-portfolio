@@ -21,6 +21,12 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
   - Merges to `main` deploy to production; every pull request gets a preview URL.
   - GitHub Actions runs CI (lint, typecheck, tests, build) on every PR; Vercel handles deploys.
   - Environment variables and secrets live in Vercel project settings, never in the repo.
+- Database: Neon Postgres (`next-portfolio-db`) through the Vercel Marketplace, connected to the
+  Vercel project `next-portfolio`. `vercel env pull .env.local` fetches the local variables.
+  - For now, Production, Preview and Development share one database (placeholder data only).
+  - Before importing real content from the Droplet or going live, whichever comes first, create
+    a Neon `development` branch and point the Development `DATABASE_URL` at it. Remind me.
+  - Neon Auth is not used (it should be turned off). Auth is Better Auth (stage 3).
 - Current state: apdesch.com points to a DigitalOcean Droplet running the old MERN portfolio.
   Keep it live until the new site is fully working on Vercel.
 - Migration plan (do not start until I ask):
@@ -113,3 +119,6 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - `pnpm typecheck` — `next typegen && tsc --noEmit`
 - `pnpm knip` — find unused files, exports and dependencies
 - `pnpm format` / `pnpm format:check` — Prettier (write / verify)
+- `pnpm db:generate --name <change>` — generate a SQL migration from `src/db/schema.ts`
+- `pnpm db:migrate` — apply pending migrations to the database in `.env.local` (review the SQL first)
+- `pnpm db:seed` — copy the placeholder projects into an empty `projects` table

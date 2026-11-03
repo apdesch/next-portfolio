@@ -1,4 +1,6 @@
 minimumReleaseAge: 1440
 allowBuilds:
+  # drizzle-kit's esbuild works without its install script (binary ships as a package).
+  esbuild: false
   sharp: false
   unrs-resolver: false

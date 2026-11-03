@@ -147,11 +147,18 @@ There are also `wipeRight` and `slightZoomOut` keyframes, but nothing uses them.
 
 ## Planned: project detail pages (not scheduled)
 
-A possible future feature: a detailed post for each project. Nothing is built yet; this records how it fits the SEO setup.
+A planned feature: a full case study for each project, with more images and long-form writing. This was the original reason for the old site's rich text editor (TipTap). Nothing is built yet; this records how it fits the SEO setup.
 
 - **Route:** `src/app/(site)/projects/[slug]/page.tsx`, prerendered with `generateStaticParams` from project content (published projects only).
-- **Content:** projects gain a `slug` and a post body when the feature is built.
+- **Content:** project bodies are Markdown (decided in stage 2), so case studies can include headings, links and images. Projects gain a `slug` when the feature is built.
+- **Info column:** a small section beside the case study listing the project's dates, company, skills, live link and an "Acquired" label where relevant. `date`, `url` and the optional `company` are stored from stage 2 onward (not shown on the home page). The project title and company can differ (title "Facebook", company "Meta"). The acquired flag gets added with this feature.
 - **Metadata:** `generateMetadata` reuses `getPageMetadata` with the project's title, description and `/projects/{slug}` path. It passes the project's own share image instead of the site image.
 - **Share image:** `src/app/(site)/projects/[slug]/opengraph-image.tsx` renders the project thumbnail and title in the same style as the site share image, so links shared on LinkedIn, Slack or iMessage show that project.
 - **Sitemap:** project URLs generated from published projects.
 - **Edge case:** social platforms cache previews. After changing a project's image or title, refresh the preview with LinkedIn's Post Inspector or the platform's equivalent.
+
+## Planned: later data and uploads (not scheduled)
+
+- **Videos table:** a YouTube URL, a description (shown as the caption and used as the embed's accessible title) and a display position.
+- **Gallery photos table:** URL, alt text, width and height (needed for the justified rows and to avoid layout jumps), category (each category is one gallery) and a display position. No titles or descriptions. No stored size variants, because Next's image optimizer generates sizes.
+- **Downloadable resume PDF:** visitors can download the latest resume directly. It's uploaded through the admin area (stage 3), like the old site's uploads, which accepted images, videos and PDFs and generated a thumbnail for each PDF.
