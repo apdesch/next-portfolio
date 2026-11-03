@@ -9,7 +9,7 @@ const HomeIntro: FC = () => {
   if (!isHomePage) return null;
 
   return (
-    <div className="relative animate-wipe-left self-center text-justify text-[1.1em] [&>p]:mx-[1em] desktop:[&>p]:max-w-[24em]">
+    <div className="relative mb-[1em] animate-wipe-left self-center text-justify text-[1.1em] [&>p]:mx-[1em] desktop:[&>p]:max-w-[24em]">
       <p>
         Software engineer in San Francisco. A decade-plus of building React apps
         for startups, from video editing to healthcare.
