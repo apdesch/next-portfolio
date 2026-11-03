@@ -1,6 +1,7 @@
-import { date, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-// Relative with an extension so the seed script can load this file in plain Node.
+import { date, integer, pgTable, text } from "drizzle-orm/pg-core";
+// Relative imports with extensions so the seed script can load these files in plain Node.
 import projectCategory from "./project-category.ts";
+import timestamps from "./timestamps.ts";
 
 // Column names are written in camelCase here; `casing: "snake_case"` in the Drizzle
 // client and drizzle.config.ts stores them as snake_case in Postgres.
@@ -21,11 +22,7 @@ const projects = pgTable("projects", {
   // Live project link and project date: stored now, shown on future project pages.
   url: text(),
   date: date({ mode: "string" }).notNull(),
-  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp({ withTimezone: true })
-    .notNull()
-    .defaultNow()
-    .$onUpdate(() => new Date()),
+  ...timestamps,
 });
 
 export type Project = typeof projects.$inferSelect;

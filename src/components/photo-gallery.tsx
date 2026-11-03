@@ -9,15 +9,16 @@ import {
   type KeyboardEvent,
   type MouseEvent,
 } from "react";
-import type { Photo } from "@/content/portfolio";
+import type { GalleryPhoto } from "@/db/tables/gallery-photos";
 
-type PhotoGalleryProps = { photos: readonly Photo[] };
+type PhotoGalleryProps = { photos: readonly GalleryPhoto[] };
 
-const getAspectRatio = (photo: Photo): number => photo.width / photo.height;
+const getAspectRatio = (photo: GalleryPhoto): number =>
+  photo.width / photo.height;
 
 // Each photo grows in proportion to its aspect ratio, so every row fills the width
 // while keeping photo shapes intact (a "justified" layout).
-const getJustifiedItemStyle = (photo: Photo): CSSProperties => ({
+const getJustifiedItemStyle = (photo: GalleryPhoto): CSSProperties => ({
   flexGrow: getAspectRatio(photo),
   flexBasis: `calc(var(--gallery-row-height) * ${getAspectRatio(photo)})`,
 });
@@ -62,7 +63,7 @@ const PhotoGallery: FC<PhotoGalleryProps> = ({ photos }) => {
     <>
       <ul className="m-0 flex list-none flex-wrap gap-1 p-0 after:grow-999 after:content-['']">
         {photos.map((photo, index) => (
-          <li key={photo.alt} style={getJustifiedItemStyle(photo)}>
+          <li key={photo.id} style={getJustifiedItemStyle(photo)}>
             <button
               type="button"
               onClick={() => openLightbox(index)}

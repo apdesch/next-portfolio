@@ -157,8 +157,14 @@ A planned feature: a full case study for each project, with more images and long
 - **Sitemap:** project URLs generated from published projects.
 - **Edge case:** social platforms cache previews. After changing a project's image or title, refresh the preview with LinkedIn's Post Inspector or the platform's equivalent.
 
-## Planned: later data and uploads (not scheduled)
+## Data (Postgres, stage 2)
 
-- **Videos table:** a YouTube URL, a description (shown as the caption and used as the embed's accessible title) and a display position.
-- **Gallery photos table:** URL, alt text, width and height (needed for the justified rows and to avoid layout jumps), category (each category is one gallery) and a display position. No titles or descriptions. No stored size variants, because Next's image optimizer generates sizes.
+All home page content lives in Neon Postgres. Each table is defined in its own module in `src/db/tables/` and read through a cached, tagged query in `src/db/`.
+
+- **`projects`:** title, optional company, category (app, logo, branding, design), description, skills, Markdown body, image fields, optional live URL and date. Newest first.
+- **`videos`:** a YouTube URL, a description (shown as the caption and used as the embed's accessible title) and a display position. The embed only accepts a valid 11-character YouTube video ID. A link that can't be read skips that video instead of breaking the page.
+- **`gallery_photos`:** URL, alt text, width and height (needed for the justified rows and to avoid layout jumps), category (each category is one gallery) and a display position. No titles or descriptions. No stored size variants, because Next's image optimizer generates sizes. Galleries appear in the order of their first photo's position.
+
+## Planned: uploads (stage 3)
+
 - **Downloadable resume PDF:** visitors can download the latest resume directly. It's uploaded through the admin area (stage 3), like the old site's uploads, which accepted images, videos and PDFs and generated a thumbnail for each PDF.

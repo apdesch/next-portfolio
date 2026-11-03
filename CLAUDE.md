@@ -119,6 +119,6 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - `pnpm typecheck` — `next typegen && tsc --noEmit`
 - `pnpm knip` — find unused files, exports and dependencies
 - `pnpm format` / `pnpm format:check` — Prettier (write / verify)
-- `pnpm db:generate --name <change>` — generate a SQL migration from `src/db/schema.ts`
+- `pnpm db:generate --name <change>` — generate a SQL migration from the tables in `src/db/tables/`
 - `pnpm db:migrate` — apply pending migrations to the database in `.env.local` (review the SQL first)
-- `pnpm db:seed` — copy the placeholder projects into an empty `projects` table
+- `pnpm db:seed` — fill empty tables with placeholder content (tables with rows are skipped)

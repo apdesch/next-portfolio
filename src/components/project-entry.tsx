@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { FC } from "react";
 import Markdown from "react-markdown";
 import SkillChips from "@/components/skill-chips";
-import type { Project } from "@/db/schema";
+import type { Project } from "@/db/tables/projects";
 
 type ProjectEntryProps = { project: Project };
 

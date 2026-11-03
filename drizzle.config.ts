@@ -14,7 +14,7 @@ if (!databaseUrl) {
 
 const drizzleConfig = defineConfig({
   dialect: "postgresql",
-  schema: ["./src/db/schema.ts", "./src/db/project-category.ts"],
+  schema: "./src/db/tables",
   out: "./drizzle",
   casing: "snake_case",
   dbCredentials: { url: databaseUrl },
