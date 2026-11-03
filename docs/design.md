@@ -122,7 +122,7 @@ There are also `wipeRight` and `slightZoomOut` keyframes, but nothing uses them.
    > I'm now looking for my next engineering role.
 9. **Resume:** take the work history from the November 2026 resumes, newest first:
    - **Portfolio rebuild:** this project (Next.js 16, TypeScript, Postgres/Drizzle, auth, CI/CD on Vercel).
-   - **Video Production:** January 2021 – present. Editing, cinematography, color grading, sound design.
+   - **Video Production, Freelance:** January 2021 – present. Editing, cinematography, color grading, sound design.
    - **RIMOWA, Client Care Specialist:** December 2023 – November 2026, with all three bullets from the resume.
    - **Engineering roles:** as on the resume, keeping the "Acquired" badge on Total Brain (SonderMind) and Mya Systems (StepStone). Use these details:
      - Barn & Willow: "10x increase in monthly revenue"

@@ -5,7 +5,7 @@ export type YearMonth = {
 
 export type ResumeEntry = {
   organization: string;
-  role: string | null;
+  role: string;
   isAcquired: boolean;
   startDate: YearMonth;
   endDate: YearMonth | null;
@@ -31,7 +31,7 @@ const experience: readonly ResumeEntry[] = [
   },
   {
     organization: "Video Production",
-    role: null,
+    role: "Freelance",
     isAcquired: false,
     startDate: { year: 2021, month: 1 },
     endDate: null,
