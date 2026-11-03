@@ -7,7 +7,7 @@ const SkillChips: FC<SkillChipsProps> = ({ skills }) => (
     {skills.map((skill) => (
       <li
         key={skill}
-        className="animate-pop-in-on-view rounded-xs bg-foreground px-[0.4em] text-background"
+        className="rounded-xs bg-foreground px-[0.4em] text-background"
       >
         {skill}
       </li>

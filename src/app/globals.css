@@ -121,21 +121,6 @@
   background-size: cover;
 }
 
-/*
- * Pop-in driven by scroll position instead of time: progress follows the element
- * entering the viewport. Browsers without support (Firefox today) show it unanimated.
- * Reduced motion is checked here because the global rule only shortens timed animations.
- */
-@utility animate-pop-in-on-view {
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      animation: pop-in var(--ease-pop) both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 25%;
-    }
-  }
-}
-
 @layer base {
   html {
     background-color: var(--background);

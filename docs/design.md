@@ -72,7 +72,7 @@ All colours come from one hue (20) and a single amber accent.
   - Large screens: the portrait in a left column about a third wide, with the bio and highlights beside it.
   - Phones: stacked, with the photo capped at `20em`.
   - Skills: two columns (engineering, video production) of chips in the same style as the project skill chips.
-  - The chips pop in as they scroll into view (CSS scroll-driven animation, `animate-pop-in-on-view`). There's no animation in browsers without support, or with reduced motion turned on.
+  - Skill chips (here and on projects) don't animate. A scroll-triggered pop-in was tried and removed, because it looked bad when chips loaded just past the fold.
   - The original layout was a full-width portrait, then a bio aligned right, then plain skill lists.
 - **Resume:** a section per company with an `h2` and a bullet list. An "Acquired" badge sits next to some company names:
   - `11px`, uppercase, `0.4em` radius, `0 10px` padding
