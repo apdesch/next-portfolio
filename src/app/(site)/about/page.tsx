@@ -21,7 +21,7 @@ const SkillGroups: FC = () => (
 
 const AboutPage: FC = () => (
   <PageContent>
-    <article className="mb-[3em]">
+    <article>
       <h1 className="uppercase">About</h1>
       <ContentCard className="grid gap-x-[2em] desktop:grid-cols-[1fr_2fr]">
         <Image

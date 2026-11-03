@@ -25,8 +25,10 @@ const getJustifiedItemStyle = (photo: Photo): CSSProperties => ({
 const getWrappedIndex = (index: number, length: number): number =>
   (index + length) % length;
 
+// size-11 (44px) is the minimum comfortable touch target; rem keeps the glyphs readable
+// regardless of the page's fluid em size.
 const lightboxButtonClassName =
-  "absolute p-[0.5em] text-[2em] leading-none text-primary-light";
+  "absolute flex size-11 items-center justify-center text-[2rem] leading-none text-primary-light";
 
 const PhotoGallery: FC<PhotoGalleryProps> = ({ photos }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -58,7 +60,7 @@ const PhotoGallery: FC<PhotoGalleryProps> = ({ photos }) => {
 
   return (
     <>
-      <ul className="m-0 flex list-none flex-wrap gap-[4px] p-0 after:grow-[999] after:content-['']">
+      <ul className="m-0 flex list-none flex-wrap gap-1 p-0 after:grow-999 after:content-['']">
         {photos.map((photo, index) => (
           <li key={photo.alt} style={getJustifiedItemStyle(photo)}>
             <button

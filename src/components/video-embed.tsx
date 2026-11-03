@@ -4,7 +4,7 @@ import type { Video } from "@/content/portfolio";
 type VideoEmbedProps = { video: Video };
 
 const VideoEmbed: FC<VideoEmbedProps> = ({ video }) => (
-  <section className="mb-[3em] flex flex-col">
+  <section className="mb-(--section-gap) flex flex-col last:mb-0">
     <div className="relative aspect-video w-full">
       <iframe
         src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}

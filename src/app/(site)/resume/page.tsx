@@ -35,16 +35,16 @@ const ResumeDates: FC<ResumeEntryProps> = ({ entry }) => (
   </span>
 );
 
-const ResumeSection: FC<ResumeEntryProps> = ({ entry }) => (
-  <section className="mb-[2em]">
-    <h2>
+const ResumeEntryItem: FC<ResumeEntryProps> = ({ entry }) => (
+  <section className="mb-(--section-gap) last:mb-0">
+    <h3 className="text-[1.5em]">
       {entry.organization}
       {entry.isAcquired && (
         <span className="ml-[0.5em] inline-block rounded-[0.4em] bg-primary-light px-2.5 align-middle text-[11px] leading-loose text-primary-dark uppercase">
           Acquired
         </span>
       )}
-    </h2>
+    </h3>
     <div className="flex flex-wrap justify-between gap-x-[1em]">
       <span>{entry.role}</span>
       <ResumeDates entry={entry} />
@@ -59,18 +59,28 @@ const ResumeSection: FC<ResumeEntryProps> = ({ entry }) => (
   </section>
 );
 
+type ResumeGroupProps = {
+  heading: string;
+  entries: readonly ResumeEntry[];
+};
+
+// 1.8em sits between the 2.4em page title and the 1.5em company names (hierarchy rule).
+const ResumeGroup: FC<ResumeGroupProps> = ({ heading, entries }) => (
+  <section>
+    <h2 className="mb-[0.5em] text-[1.8em] uppercase">{heading}</h2>
+    {entries.map((entry) => (
+      <ResumeEntryItem key={entry.organization} entry={entry} />
+    ))}
+  </section>
+);
+
 const ResumePage: FC = () => (
   <PageContent>
-    <article className="mb-[3em]">
+    <article>
       <h1 className="uppercase">Resume</h1>
-      <ContentCard>
-        {resume.experience.map((entry) => (
-          <ResumeSection key={entry.organization} entry={entry} />
-        ))}
-        <h1 className="mt-[1em] uppercase">Education</h1>
-        {resume.education.map((entry) => (
-          <ResumeSection key={entry.organization} entry={entry} />
-        ))}
+      <ContentCard className="flex flex-col gap-(--section-gap)">
+        <ResumeGroup heading="Experience" entries={resume.experience} />
+        <ResumeGroup heading="Education" entries={resume.education} />
       </ContentCard>
     </article>
   </PageContent>

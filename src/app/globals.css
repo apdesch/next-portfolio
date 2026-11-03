@@ -91,6 +91,8 @@
 :root {
   /* One step for every staggered entrance (nav links, social icons). */
   --stagger-step: 200ms;
+  /* The one vertical gap between page sections and between entries in a section. */
+  --section-gap: 3em;
   /* Target row height for justified photo galleries (rows stretch slightly to fill the width). */
   --gallery-row-height: 150px;
   --background: var(--color-primary-light);

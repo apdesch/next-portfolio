@@ -7,7 +7,7 @@ type ProjectEntryProps = { project: Project };
 
 // Large screens: image on the right, text bottom-aligned on the left, as on the original site.
 const ProjectEntry: FC<ProjectEntryProps> = ({ project }) => (
-  <article className="mb-[3em] grid items-end gap-[1em] desktop:grid-cols-2">
+  <article className="mb-(--section-gap) grid items-end gap-[1em] last:mb-0 desktop:grid-cols-2">
     <Image
       src={project.image.src}
       alt={project.image.alt}

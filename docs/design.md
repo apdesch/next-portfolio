@@ -50,6 +50,8 @@ All colors come from one hue (20) and a single amber accent.
 | Page `h1`             | `2.4em` | 400    | Uppercase, `0.5em` bottom margin                                                             |
 | Global nav links      | `1.8em` | 400    | Uppercase                                                                                    |
 | Project title `h2`    | `2em`   | 400    | Below the `2.4em` section title (the original `3em` broke the hierarchy)                     |
+| Resume group `h2`     | `1.8em` | 400    | Uppercase ("Experience", "Education"), between the page title and company names              |
+| Company / skill group | `1.5em` | 400    | Resume company `h3`, About skill-group `h2`                                                  |
 | Project subtitle `h4` | `1.1em` | 400    |                                                                                              |
 | Paragraphs            |         |        | Line height `calc(1ex / 0.32)`, max width `24em` in the header, justified in blurb and About |
 | List items            |         |        | Line height 1.6                                                                              |
