@@ -1,26 +1,7 @@
 import type { FC } from "react";
 import type { Video } from "@/db/tables/videos";
-
-// YouTube video IDs are exactly 11 characters of letters, digits, "-" and "_". Checking
-// the shape keeps anything unexpected in a stored link out of the embed URL.
-const youtubeVideoIdPattern = /^[\w-]{11}$/;
-
-const getVideoIdCandidate = (url: URL): string | null => {
-  const hostname = url.hostname.replace(/^(www|m)\./, "");
-  const isYoutubeHost =
-    hostname === "youtube.com" || hostname === "youtube-nocookie.com";
-  if (hostname === "youtu.be") return url.pathname.slice(1);
-  if (!isYoutubeHost) return null;
-  if (url.pathname.startsWith("/embed/")) return url.pathname.split("/")[2];
-  return url.searchParams.get("v");
-};
-
-const getYoutubeVideoId = (youtubeUrl: string): string | null => {
-  if (!URL.canParse(youtubeUrl)) return null;
-  const candidate = getVideoIdCandidate(new URL(youtubeUrl));
-  if (candidate === null || !youtubeVideoIdPattern.test(candidate)) return null;
-  return candidate;
-};
+import getYoutubeEmbedUrl from "@/lib/get-youtube-embed-url";
+import getYoutubeVideoId from "@/lib/get-youtube-video-id";
 
 type VideoEmbedProps = { video: Video };
 
@@ -34,7 +15,7 @@ const VideoEmbed: FC<VideoEmbedProps> = ({ video }) => {
     <section className="mb-(--section-gap) flex flex-col last:mb-0">
       <div className="relative aspect-video w-full">
         <iframe
-          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+          src={getYoutubeEmbedUrl(videoId)}
           title={video.description}
           loading="lazy"
           referrerPolicy="strict-origin-when-cross-origin"

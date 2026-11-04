@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { type FC, useActionState } from "react";
+import adminInputClassName from "@/lib/admin-input-class-name";
 import authClient from "@/lib/auth-client";
 
 type SignInState = { email: string; errorMessage: string | null };
@@ -14,9 +15,6 @@ const getSignInErrorMessage = (status: number): string =>
   status === tooManyRequestsStatus
     ? "Too many attempts. Wait a few minutes and try again."
     : "Wrong email or password.";
-
-const inputClassName =
-  "w-full rounded-md border border-admin-dark/20 bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-admin-accent dark:border-admin-light/20 dark:bg-admin-light/5 dark:focus-visible:outline-admin-accent-dark";
 
 const SignInForm: FC = () => {
   const router = useRouter();
@@ -53,7 +51,7 @@ const SignInForm: FC = () => {
           autoComplete="username"
           required
           defaultValue={state.email}
-          className={inputClassName}
+          className={adminInputClassName}
         />
       </div>
       <div>
@@ -66,7 +64,7 @@ const SignInForm: FC = () => {
           type="password"
           autoComplete="current-password"
           required
-          className={inputClassName}
+          className={adminInputClassName}
         />
       </div>
       {/* Always rendered and one line tall, so an error doesn't push the button down, and

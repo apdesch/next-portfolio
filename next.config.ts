@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   images: {
     remotePatterns: [
+      // Video thumbnails in the admin's Videos section.
+      new URL("https://i.ytimg.com/vi/**"),
       // Uploaded images, in the next-portfolio-blob store.
       new URL("https://5izkzsfudd7zkutj.public.blob.vercel-storage.com/**"),
       // Placeholder images only; remove once real project and gallery photos are added.

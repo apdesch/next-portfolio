@@ -1,5 +1,6 @@
 import { z } from "zod";
 import projectCategory from "@/db/tables/project-category";
+import getFirstFieldErrors from "@/lib/get-first-field-errors";
 
 const requiredText = (message: string) =>
   z.string({ error: message }).trim().min(1, message);
@@ -79,17 +80,6 @@ const getTextFieldValues = (formData: FormData): Record<string, string> =>
     [...formData.entries()].filter(
       (entry): entry is [string, string] => typeof entry[1] === "string",
     ),
-  );
-
-// Keeps the first message per field, which is the one the form shows.
-const getFirstFieldErrors = (
-  fieldErrors: Partial<Record<ProjectFormField, string[]>>,
-): ProjectFormErrors =>
-  Object.fromEntries(
-    Object.entries(fieldErrors).map(([field, messages]) => [
-      field,
-      messages?.[0],
-    ]),
   );
 
 const parseProjectForm = (formData: FormData): ProjectFormResult => {

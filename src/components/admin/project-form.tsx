@@ -6,7 +6,6 @@ import {
   type ChangeEvent,
   type FC,
   type FormEvent,
-  type ReactNode,
   startTransition,
   useActionState,
   useEffect,
@@ -14,7 +13,9 @@ import {
   useState,
 } from "react";
 import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
+import FormField from "@/components/admin/form-field";
 import type { Project } from "@/db/tables/projects";
+import adminInputClassName from "@/lib/admin-input-class-name";
 import checkImageFile from "@/lib/check-image-file";
 import getUploadedFile from "@/lib/get-uploaded-file";
 import projectCategoryLabels from "@/lib/project-category-labels";
@@ -67,40 +68,6 @@ const monthOptions = Array.from({ length: 12 }, (_value, monthIndex) => ({
   value: String(monthIndex + 1).padStart(2, "0"),
   label: formatMonthName(new Date(Date.UTC(2000, monthIndex, 1))),
 }));
-
-const inputClassName =
-  "w-full rounded-md border border-admin-dark/20 bg-white px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-admin-accent aria-invalid:border-red-700 dark:border-admin-light/20 dark:bg-admin-light/5 dark:focus-visible:outline-admin-accent-dark dark:aria-invalid:border-red-400";
-
-type FieldProps = {
-  name: ProjectFieldName;
-  label: string;
-  errorMessage?: string;
-  isWide?: boolean;
-  children: ReactNode;
-};
-
-const Field: FC<FieldProps> = ({
-  name,
-  label,
-  errorMessage,
-  isWide,
-  children,
-}) => (
-  <div className={isWide ? "@2xl:col-span-2" : undefined}>
-    <label htmlFor={name} className="mb-1 block text-sm font-medium">
-      {label}
-    </label>
-    {children}
-    {errorMessage && (
-      <p
-        id={`${name}-error`}
-        className="mt-1 mb-0 text-sm text-red-700 dark:text-red-400"
-      >
-        {errorMessage}
-      </p>
-    )}
-  </div>
-);
 
 const ProjectForm: FC<ProjectFormProps> = ({
   project,
@@ -160,7 +127,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
     defaultValue: projectValues[name],
     "aria-invalid": state.fieldErrors[name] ? true : undefined,
     "aria-describedby": state.fieldErrors[name] ? `${name}-error` : undefined,
-    className: inputClassName,
+    className: adminInputClassName,
   });
 
   return (
@@ -171,21 +138,21 @@ const ProjectForm: FC<ProjectFormProps> = ({
         noValidate
         className="grid gap-5 p-6 @2xl:grid-cols-2"
       >
-        <Field
+        <FormField
           name="title"
           label="Title"
           errorMessage={state.fieldErrors.title}
         >
           <input {...getControlProps("title")} />
-        </Field>
-        <Field
+        </FormField>
+        <FormField
           name="company"
           label="Company (optional)"
           errorMessage={state.fieldErrors.company}
         >
           <input {...getControlProps("company")} />
-        </Field>
-        <Field
+        </FormField>
+        <FormField
           name="category"
           label="Category"
           errorMessage={state.fieldErrors.category}
@@ -201,7 +168,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
               </option>
             ))}
           </select>
-        </Field>
+        </FormField>
         <fieldset className="m-0 min-w-0 border-0 p-0">
           <legend className="mb-1 p-0 text-sm font-medium">Date</legend>
           <div className="flex gap-2">
@@ -238,39 +205,39 @@ const ProjectForm: FC<ProjectFormProps> = ({
               ),
           )}
         </fieldset>
-        <Field
+        <FormField
           name="description"
           label="Description"
           errorMessage={state.fieldErrors.description}
-          isWide
+          className="@2xl:col-span-2"
         >
           <input {...getControlProps("description")} />
-        </Field>
-        <Field
+        </FormField>
+        <FormField
           name="skills"
           label="Skills (comma separated)"
           errorMessage={state.fieldErrors.skills}
-          isWide
+          className="@2xl:col-span-2"
         >
           <input {...getControlProps("skills")} />
-        </Field>
-        <Field
+        </FormField>
+        <FormField
           name="body"
           label="Body (Markdown)"
           errorMessage={state.fieldErrors.body}
-          isWide
+          className="@2xl:col-span-2"
         >
           <textarea
             rows={10}
             {...getControlProps("body")}
-            className={`${inputClassName} font-mono`}
+            className={`${adminInputClassName} font-mono`}
           />
-        </Field>
-        <Field
+        </FormField>
+        <FormField
           name="image"
           label="Image"
           errorMessage={imageErrorMessage}
-          isWide
+          className="@2xl:col-span-2"
         >
           <div className="flex items-center gap-4">
             {shownImageSrc && (
@@ -306,21 +273,21 @@ const ProjectForm: FC<ProjectFormProps> = ({
               </p>
             </div>
           </div>
-        </Field>
-        <Field
+        </FormField>
+        <FormField
           name="imageAlt"
           label="Image description (alt text)"
           errorMessage={state.fieldErrors.imageAlt}
         >
           <input {...getControlProps("imageAlt")} />
-        </Field>
-        <Field
+        </FormField>
+        <FormField
           name="url"
           label="Live link (optional)"
           errorMessage={state.fieldErrors.url}
         >
           <input type="url" {...getControlProps("url")} />
-        </Field>
+        </FormField>
       </form>
       {/* Outside the form, so the delete confirmation's own form isn't nested in it. */}
       <div className="flex items-center gap-3 border-t border-admin-dark/10 px-6 py-4 dark:border-admin-light/10">
