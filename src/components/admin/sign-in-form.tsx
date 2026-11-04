@@ -33,7 +33,7 @@ const SignInForm: FC = () => {
       if (error) {
         return { email, errorMessage: getSignInErrorMessage(error.status) };
       }
-      router.replace("/admin");
+      router.replace("/admin/projects");
       return initialSignInState;
     },
     initialSignInState,

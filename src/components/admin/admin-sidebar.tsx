@@ -13,7 +13,7 @@ const AdminSidebar: FC = () => (
     <ul className="m-0 flex list-none flex-col gap-1 p-0">
       <li>
         <Link
-          href="/admin"
+          href="/admin/projects"
           aria-current="page"
           className="block rounded-md px-3 py-2 text-sm hover:bg-admin-dark/5 aria-[current=page]:bg-admin-accent/10 aria-[current=page]:font-medium aria-[current=page]:text-admin-accent dark:hover:bg-admin-light/10 dark:aria-[current=page]:bg-admin-accent-dark/15 dark:aria-[current=page]:text-admin-accent-dark"
         >

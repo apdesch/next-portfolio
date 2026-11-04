@@ -26,7 +26,7 @@ const AdminHeader: FC<AdminHeaderProps> = ({ profileMenu }) => (
         <path d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
-    <Link href="/admin">
+    <Link href="/admin/projects">
       <AdminWordmark />
     </Link>
     <div className="ml-auto flex items-center gap-4">
