@@ -171,6 +171,14 @@ All home page content lives in Neon Postgres. Each table is defined in its own m
 - **Downloadable resume PDF:** visitors can download the latest resume directly. It's uploaded through the admin area (stage 3), like the old site's uploads, which accepted images, videos and PDFs and generated a thumbnail for each PDF.
 - **Files page:** an admin library of uploaded documents, limited to PDF and plain text (`.txt`, `.md`), with no office documents. Each file gets a link to paste into a project body, such as a white paper related to a project. Resume PDFs live here too.
 
+## Resume PDF
+
+- One PDF on the admin Files page can be marked as the resume (the database allows only one).
+- `apdesch.com/resume.pdf` always serves the current one, opening in the browser's PDF viewer as `Adam-Deschamp-Resume.pdf`, so the link can be shared once and never goes stale.
+- The Resume page links to it twice, both opening in a new tab and only when a resume is marked:
+  - "View PDF" on the title's line, right-aligned: a small square-cornered button at body text size with light uppercase text and no shadow (public buttons never have drop shadows). Light mode: solid `primary-dark`. Dark mode: frosted glass like the content cards (`primary-dark` at 50%, 40px blur).
+  - "View this resume as a PDF" at the end of the resume, in the uppercase `1.2em` link style of the 404 page.
+
 ## Admin design (stage 3)
 
 Chosen from three runnable mockups in November 2026 (option A, "Cards").

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { FC } from "react";
 import ContentCard from "@/components/content-card";
 import PageContent from "@/components/page-content";
+import ResumePdfLink from "@/components/resume-pdf-link";
 import resume, { type ResumeEntry, type YearMonth } from "@/content/resume";
 import getPageMetadata from "@/lib/page-metadata";
 
@@ -77,10 +78,24 @@ const ResumeGroup: FC<ResumeGroupProps> = ({ heading, entries }) => (
 const ResumePage: FC = () => (
   <PageContent>
     <article>
-      <h1 className="uppercase">Resume</h1>
+      {/* The title's bottom margin moves to the row, so the link lines up with its text.
+          1.2em here equals the title's own 0.5em at its 2.4em size. */}
+      <div className="mb-[1.2em] flex flex-wrap items-baseline justify-between gap-x-[1em]">
+        <h1 className="mb-0 uppercase">Resume</h1>
+        {/* A small button, dark with light text. In dark mode it's frosted glass like the
+            resume card below it; in light mode (where the card is invisible) it's solid. */}
+        <ResumePdfLink
+          label="View PDF"
+          className="bg-primary-dark px-[0.9em] py-[0.3em] text-primary-light uppercase dark:bg-primary-dark/50 dark:backdrop-blur-2xl"
+        />
+      </div>
       <ContentCard className="flex flex-col gap-(--section-gap)">
         <ResumeGroup heading="Experience" entries={resume.experience} />
         <ResumeGroup heading="Education" entries={resume.education} />
+        <ResumePdfLink
+          label="View this resume as a PDF"
+          className="self-end text-[1.2em] uppercase"
+        />
       </ContentCard>
     </article>
   </PageContent>

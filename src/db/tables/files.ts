@@ -1,17 +1,35 @@
-import { integer, pgTable, text } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import {
+  boolean,
+  integer,
+  pgTable,
+  text,
+  uniqueIndex,
+} from "drizzle-orm/pg-core";
 import timestamps from "./timestamps.ts";
 
 // Documents uploaded on the admin Files page (PDFs and plain text), stored in Vercel Blob.
-const files = pgTable("files", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  // The name as uploaded, shown in the admin; the stored name is cleaned up and suffixed.
-  name: text().notNull(),
-  url: text().notNull().unique(),
-  thumbnailUrl: text().notNull(),
-  contentType: text().notNull(),
-  sizeInBytes: integer().notNull(),
-  ...timestamps,
-});
+const files = pgTable(
+  "files",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    // The name as uploaded, shown in the admin; the stored name is cleaned up and suffixed.
+    name: text().notNull(),
+    url: text().notNull().unique(),
+    thumbnailUrl: text().notNull(),
+    contentType: text().notNull(),
+    sizeInBytes: integer().notNull(),
+    // The PDF linked from the public Resume page (served at /resume.pdf).
+    isResume: boolean().notNull().default(false),
+    ...timestamps,
+  },
+  // At most one file can be the resume; the database enforces it.
+  (table) => [
+    uniqueIndex("files_only_one_resume")
+      .on(table.isResume)
+      .where(sql`${table.isResume}`),
+  ],
+);
 
 export type StoredFile = typeof files.$inferSelect;
 

@@ -1,7 +1,7 @@
 "use server";
 
 import { eq } from "drizzle-orm";
-import { refresh } from "next/cache";
+import { refresh, updateTag } from "next/cache";
 import { notFound } from "next/navigation";
 import getDb from "@/db/client";
 import files from "@/db/tables/files";
@@ -16,7 +16,13 @@ const deleteFile = async (fileId: number): Promise<void> => {
   const [deletedFile] = await getDb()
     .delete(files)
     .where(eq(files.id, fileId))
-    .returning({ url: files.url, thumbnailUrl: files.thumbnailUrl });
+    .returning({
+      url: files.url,
+      thumbnailUrl: files.thumbnailUrl,
+      isResume: files.isResume,
+    });
+  // Deleting the resume removes the link from the Resume page.
+  if (deletedFile?.isResume) updateTag("resume-file");
   if (deletedFile) {
     await Promise.all([
       deleteStoredFile(deletedFile.url),
