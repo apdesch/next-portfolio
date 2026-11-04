@@ -15,6 +15,13 @@
       "when": 1793746220051,
       "tag": "0001_create_videos_and_gallery_photos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793756499694,
+      "tag": "0002_create_auth_tables",
+      "breakpoints": true
     }
   ]
 }

@@ -33,7 +33,7 @@ const valueExportRestriction = {
 
 // Next.js only reads these when they are named exports of a page or layout.
 const nextRequiredExportNames =
-  "metadata|generateMetadata|viewport|generateViewport|generateStaticParams|alt|size|contentType";
+  "metadata|generateMetadata|viewport|generateViewport|generateStaticParams|alt|size|contentType|GET|POST";
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -60,6 +60,11 @@ const eslintConfig = defineConfig([
         },
       ],
     },
+  },
+  // Next.js route handlers export one function per HTTP method and never a default.
+  {
+    files: ["src/app/**/route.ts"],
+    rules: { "import/prefer-default-export": "off" },
   },
   // Must come last so it can switch off formatting rules from the configs above.
   prettier,

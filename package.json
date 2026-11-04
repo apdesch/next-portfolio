@@ -14,13 +14,15 @@
     "format:check": "prettier --check .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "node --env-file=.env.local scripts/seed-placeholders.ts"
+    "db:seed": "node --env-file=.env.local scripts/seed-placeholders.ts",
+    "admin:create": "node --env-file=.env.local scripts/create-admin-user.ts"
   },
   "engines": {
     "node": ">=24"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
+    "better-auth": "^1.7.15",
     "drizzle-orm": "^0.45.4",
     "next": "16.4.3",
     "react": "19.3.0",

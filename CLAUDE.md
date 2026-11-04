@@ -86,8 +86,8 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Every module ends with one `export default name;`, never `export default` on the declaration
   and never `export const`. Named exports are allowed only for TypeScript types and for the
   exports Next.js requires in `src/app/` (`metadata`, `generateMetadata`, `viewport`,
-  `generateViewport`, `generateStaticParams`, and `alt`, `size`, `contentType` in
-  `opengraph-image.tsx`).
+  `generateViewport`, `generateStaticParams`, `alt`, `size`, `contentType` in
+  `opengraph-image.tsx`, and `GET`, `POST` in `route.ts`). A `route.ts` has no default export.
 - ESLint enforces the three rules above.
 
 ## No bloat (required)
@@ -122,3 +122,5 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - `pnpm db:generate --name <change>` — generate a SQL migration from the tables in `src/db/tables/`
 - `pnpm db:migrate` — apply pending migrations to the database in `.env.local` (review the SQL first)
 - `pnpm db:seed` — fill empty tables with placeholder content (tables with rows are skipped)
+- `pnpm admin:create` — create the single admin account (prompts for email and password;
+  run it yourself with `! pnpm admin:create`, never with a password in the command)
