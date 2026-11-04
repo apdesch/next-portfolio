@@ -134,39 +134,43 @@
     color: var(--selection);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: 400;
-    text-rendering: geometricPrecision;
-  }
+  /* Public typography only, so the admin keeps Tailwind's defaults and doesn't change when the
+     public design does. :where() adds no specificity, so these match exactly like bare selectors. */
+  :where(.public-site) {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 400;
+      text-rendering: geometricPrecision;
+    }
 
-  h1 {
-    font-size: 2.4em;
-    margin-bottom: 0.5em;
-  }
+    h1 {
+      font-size: 2.4em;
+      margin-bottom: 0.5em;
+    }
 
-  p {
-    margin-block: 1em;
-    line-height: calc(1ex / 0.32);
-  }
+    p {
+      margin-block: 1em;
+      line-height: calc(1ex / 0.32);
+    }
 
-  /* Browser defaults the original design relied on, which Tailwind's reset removes. */
-  h2 {
-    font-size: 1.5em;
-  }
+    /* Browser defaults the original design relied on, which Tailwind's reset removes. */
+    h2 {
+      font-size: 1.5em;
+    }
 
-  ul {
-    list-style: disc;
-    margin-block: 1em;
-    padding-inline-start: 40px;
-  }
+    ul {
+      list-style: disc;
+      margin-block: 1em;
+      padding-inline-start: 40px;
+    }
 
-  li {
-    line-height: 1.6;
+    li {
+      line-height: 1.6;
+    }
   }
 }
 
