@@ -69,6 +69,9 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Functional style. No classes. Prefer pure functions that take input and return output.
 - No mutation: use `const`, spread, `map`, `filter`, `reduce`. Never `let` unless unavoidable.
 - Keep side effects (database, network, file I/O) in clearly named modules; keep everything else pure.
+- Admin pages read data only through functions in `src/db/admin/`, and every admin Server
+  Action that changes data calls `requireAdminSession()` first. Both check the session
+  themselves, because a layout's check can't stop a page's data from being sent.
 - Descriptive names everywhere. No single letters or abbreviations, including callbacks:
   `projects.map((project) => ...)`, not `projects.map((p) => ...)`.
 - Function names start with a verb and say what they return or do:
@@ -123,4 +126,4 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - `pnpm db:migrate` — apply pending migrations to the database in `.env.local` (review the SQL first)
 - `pnpm db:seed` — fill empty tables with placeholder content (tables with rows are skipped)
 - `pnpm admin:create` — create the single admin account (prompts for email and password;
-  run it yourself with `! pnpm admin:create`, never with a password in the command)
+  run it yourself in your own terminal, never with a password in the command)

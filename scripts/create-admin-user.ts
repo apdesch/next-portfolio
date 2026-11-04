@@ -10,6 +10,13 @@ import { count } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/neon-http";
 import authTables from "../src/db/auth-tables.ts";
 
+// The prompts need a keyboard; without one (such as Claude Code's `!` prefix) readline
+// gets no input and Node exits with a confusing "unsettled top-level await" warning.
+if (!stdin.isTTY) {
+  console.error("Run this in your own terminal: it needs to read your typing.");
+  process.exit(1);
+}
+
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) throw new Error("DATABASE_URL is missing.");
 

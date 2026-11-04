@@ -6,6 +6,14 @@
   --color-highlight: #935c06;
   --color-highlight-dark: #d99326;
 
+  /* Admin palette: starts from the public colors but is defined separately, so a public
+     redesign leaves the admin unchanged (see "Admin design" in docs/design.md). */
+  --color-admin-dark: #141414;
+  --color-admin-light: #f3e8e2;
+  --color-admin-accent: #935c06;
+  --color-admin-accent-dark: #d99326;
+  --font-admin: system-ui, sans-serif;
+
   /* The original design has a single breakpoint. */
   --breakpoint-*: initial;
   --breakpoint-desktop: 54em;

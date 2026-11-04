@@ -61,6 +61,20 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  // Next.js reads the proxy's path matcher from a named `config` export.
+  {
+    files: ["src/proxy.ts"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        ...projectStyleRestrictions,
+        {
+          ...valueExportRestriction,
+          selector: `${valueExportRestriction.selector}:not([declaration.declarations.0.id.name="config"])`,
+        },
+      ],
+    },
+  },
   // Next.js route handlers export one function per HTTP method and never a default.
   {
     files: ["src/app/**/route.ts"],

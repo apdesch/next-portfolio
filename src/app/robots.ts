@@ -16,7 +16,7 @@ const aiTrainingCrawlers = [
 
 const robots = (): MetadataRoute.Robots => ({
   rules: [
-    { userAgent: "*", allow: "/" },
+    { userAgent: "*", allow: "/", disallow: "/admin" },
     { userAgent: aiTrainingCrawlers, disallow: "/" },
   ],
   sitemap: `${siteUrl}/sitemap.xml`,
