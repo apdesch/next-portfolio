@@ -23,8 +23,9 @@ const ProjectEntry: FC<ProjectEntryProps> = ({ project }) => (
       <p className="mt-0 mb-[1em] text-[1.1em]">{project.description}</p>
       <SkillChips skills={project.skills} />
     </section>
-    {/* react-markdown builds React elements and ignores raw HTML, so no sanitizer is needed. */}
-    <section className="desktop:col-span-2">
+    {/* Under the image, in its column, as on the original site. react-markdown builds React
+        elements and ignores raw HTML, so no sanitizer is needed. */}
+    <section className="desktop:col-start-2">
       <Markdown>{project.body}</Markdown>
     </section>
   </article>

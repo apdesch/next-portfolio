@@ -68,6 +68,7 @@ All colors come from one hue (20) and a single amber accent.
   - A two-column grid with the image and text side by side, bottom-aligned with a `1em` gap.
   - `direction: rtl` puts the image on the right; the text sections reset to left-to-right.
   - Skills are inline uppercase "chips" at `0.9em`: inverted colors (text color as background), 2px radius.
+  - The project body sits on the next row, under the image and in its column (not across both).
 - **Videos:** responsive 16:9 YouTube embeds (`youtube-nocookie.com`), each with a caption below, right-aligned at `1.1em`.
 - **Photo galleries:** grouped by category, a justified row layout (target row height 150px), and a click-to-open lightbox with fullscreen, slideshow and zoom.
 - **About** (redesigned November 2026):
