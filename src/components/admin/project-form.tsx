@@ -1,19 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
-  type ChangeEvent,
   type FC,
   type FormEvent,
   startTransition,
   useActionState,
-  useEffect,
-  useRef,
-  useState,
 } from "react";
+import ButtonLabel from "@/components/admin/button-label";
 import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
 import FormField from "@/components/admin/form-field";
+import ImagePickerField from "@/components/admin/image-picker-field";
 import type { Project } from "@/db/tables/projects";
 import adminInputClassName from "@/lib/admin-input-class-name";
 import checkImageFile from "@/lib/check-image-file";
@@ -79,46 +76,18 @@ const ProjectForm: FC<ProjectFormProps> = ({
     initialFormState,
   );
   const projectValues = getProjectFieldValues(project);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-  const [browserImageError, setBrowserImageError] = useState<string | null>(
-    null,
-  );
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  const imageErrorMessage = browserImageError ?? state.fieldErrors.image;
-
-  // After a save the image is stored, so the picker empties; saving again for a text edit
-  // won't upload the same image twice. The preview keeps showing it.
-  useEffect(() => {
-    const imageInput = imageInputRef.current;
-    if (state.isSaved && imageInput) imageInput.value = "";
-  }, [state]);
-  const shownImageSrc = imagePreviewUrl ?? project?.imageSrc ?? null;
-
-  // Checks the chosen image right away and previews it before it's uploaded.
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    const imageFile = event.currentTarget.files?.[0] ?? null;
-    const imageError = checkImageFile(imageFile, false);
-    setBrowserImageError(imageError);
-    if (imagePreviewUrl) URL.revokeObjectURL(imagePreviewUrl);
-    setImagePreviewUrl(
-      imageFile && !imageError ? URL.createObjectURL(imageFile) : null,
-    );
-  };
-
   // Submits without the form `action` prop, because React resets a form after its action
   // runs (and selects snap back to their first value). This keeps every field as typed.
   // A wrong or oversized image is stopped here: the server would reject the whole request.
+  // The image picker already shows why a chosen image can't be used.
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const imageFile = getUploadedFile(formData, "image");
-    const imageError = imageFile ? checkImageFile(imageFile, false) : null;
-    setBrowserImageError(imageError);
-    if (imageError) return;
+    if (imageFile && checkImageFile(imageFile, false)) return;
     startTransition(() => submitProject(formData));
   };
-  const hasErrors =
-    Object.keys(state.fieldErrors).length > 0 || browserImageError !== null;
+  const hasErrors = Object.keys(state.fieldErrors).length > 0;
 
   // Each control gets its name, starting value and error wiring from one place.
   const getControlProps = (name: ProjectTextFieldName) => ({
@@ -233,47 +202,12 @@ const ProjectForm: FC<ProjectFormProps> = ({
             className={`${adminInputClassName} font-mono`}
           />
         </FormField>
-        <FormField
-          name="image"
-          label="Image"
-          errorMessage={imageErrorMessage}
+        <ImagePickerField
+          currentImageSrc={project?.imageSrc}
+          serverErrorMessage={state.fieldErrors.image}
+          isSaved={state.isSaved}
           className="@2xl:col-span-2"
-        >
-          <div className="flex items-center gap-4">
-            {shownImageSrc && (
-              <div className="relative aspect-3/2 w-32 shrink-0 overflow-hidden rounded-md">
-                {/* A preview is a local blob: URL, which the image optimizer can't fetch. */}
-                <Image
-                  src={shownImageSrc}
-                  alt=""
-                  fill
-                  sizes="8em"
-                  unoptimized={imagePreviewUrl !== null}
-                  className="object-cover"
-                />
-              </div>
-            )}
-            <div>
-              <input
-                ref={imageInputRef}
-                id="image"
-                name="image"
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/avif"
-                onChange={handleImageChange}
-                aria-invalid={imageErrorMessage ? true : undefined}
-                aria-describedby={
-                  imageErrorMessage ? "image-error image-hint" : "image-hint"
-                }
-                className="text-sm file:mr-3 file:rounded-md file:border file:border-admin-dark/20 file:bg-white file:px-3 file:py-2 dark:file:border-admin-light/20 dark:file:bg-admin-light/10 dark:file:text-admin-light"
-              />
-              <p id="image-hint" className="mt-1 mb-0 text-sm opacity-70">
-                JPEG, PNG, WebP or AVIF, up to 4 MB.
-                {project && " Leave empty to keep the current image."}
-              </p>
-            </div>
-          </div>
-        </FormField>
+        />
         <FormField
           name="imageAlt"
           label="Image description (alt text)"
@@ -319,7 +253,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
           disabled={isPending}
           className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
         >
-          {isPending ? "Saving…" : "Save"}
+          <ButtonLabel isBusy={isPending} label="Save" busyLabel="Saving…" />
         </button>
       </div>
     </div>

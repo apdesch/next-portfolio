@@ -9,6 +9,7 @@ import {
   useState,
   useTransition,
 } from "react";
+import ButtonLabel from "@/components/admin/button-label";
 import maximumUploadBytes from "@/lib/maximum-upload-bytes";
 
 export type UploadOneResult = { errorMessage: string | null };
@@ -127,10 +128,15 @@ const MultiFileUploadForm: FC<MultiFileUploadFormProps> = ({
           disabled={selectedFileCount === 0 || isUploading}
           className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
         >
-          {isUploading ? "Uploading…" : "Upload"}
+          <ButtonLabel
+            isBusy={isUploading}
+            label="Upload"
+            busyLabel="Uploading…"
+          />
         </button>
       </div>
-      <div id="upload-status" role="status" className="text-sm">
+      {/* One line is always reserved, so the progress line doesn't push the page down. */}
+      <div id="upload-status" role="status" className="min-h-5 text-sm">
         {progress && (
           <p className="m-0 opacity-70">
             Uploading {progress.currentNumber} of {progress.totalCount}…

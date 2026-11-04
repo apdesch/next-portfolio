@@ -7,6 +7,7 @@ import { type FC, Suspense, useRef } from "react";
 const adminSections = [
   { label: "Projects", href: "/admin/projects" },
   { label: "Videos", href: "/admin/videos" },
+  { label: "Gallery", href: "/admin/gallery" },
   { label: "Files", href: "/admin/files" },
 ];
 

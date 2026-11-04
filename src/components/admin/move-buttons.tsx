@@ -1,6 +1,28 @@
 import type { FC } from "react";
 
+// Vertical lists use ↑ ↓; grids, which read left to right, use ← →.
+type MoveOrientation = "vertical" | "horizontal";
+
+const moveLabels: Record<
+  MoveOrientation,
+  { earlierArrow: string; laterArrow: string; earlier: string; later: string }
+> = {
+  vertical: {
+    earlierArrow: "↑",
+    laterArrow: "↓",
+    earlier: "up",
+    later: "down",
+  },
+  horizontal: {
+    earlierArrow: "←",
+    laterArrow: "→",
+    earlier: "earlier",
+    later: "later",
+  },
+};
+
 type MoveButtonsProps = {
+  orientation: MoveOrientation;
   itemName: string;
   isFirst: boolean;
   isLast: boolean;
@@ -14,6 +36,7 @@ const moveButtonClassName =
 // Up and down buttons for ordered lists. The list shows each move at once and saves it in
 // the background (see video-list.tsx).
 const MoveButtons: FC<MoveButtonsProps> = ({
+  orientation,
   itemName,
   isFirst,
   isLast,
@@ -23,21 +46,21 @@ const MoveButtons: FC<MoveButtonsProps> = ({
   <div className="flex gap-1">
     <button
       type="button"
-      aria-label={`Move ${itemName} up`}
+      aria-label={`Move ${itemName} ${moveLabels[orientation].earlier}`}
       disabled={isFirst}
       onClick={onMoveUp}
       className={moveButtonClassName}
     >
-      <span aria-hidden="true">↑</span>
+      <span aria-hidden="true">{moveLabels[orientation].earlierArrow}</span>
     </button>
     <button
       type="button"
-      aria-label={`Move ${itemName} down`}
+      aria-label={`Move ${itemName} ${moveLabels[orientation].later}`}
       disabled={isLast}
       onClick={onMoveDown}
       className={moveButtonClassName}
     >
-      <span aria-hidden="true">↓</span>
+      <span aria-hidden="true">{moveLabels[orientation].laterArrow}</span>
     </button>
   </div>
 );

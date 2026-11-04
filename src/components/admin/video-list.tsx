@@ -92,6 +92,7 @@ const VideoList: FC<VideoListProps> = ({ videos, moveVideo }) => {
               Edit
             </Link>
             <MoveButtons
+              orientation="vertical"
               itemName={video.description}
               isFirst={videoIndex === 0}
               isLast={videoIndex === orderedVideos.length - 1}

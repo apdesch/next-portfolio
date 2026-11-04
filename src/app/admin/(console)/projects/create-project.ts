@@ -10,7 +10,7 @@ import parseProjectForm, {
   type ProjectFormState,
 } from "@/lib/project-form-schema";
 import requireAdminSession from "@/lib/require-admin-session";
-import storeProjectImage from "@/lib/store-project-image";
+import storeImage from "@/lib/store-image";
 
 const createProject = async (
   _previousState: ProjectFormState,
@@ -30,14 +30,19 @@ const createProject = async (
     };
   }
 
-  const storedImage = await storeProjectImage(imageFile);
+  const storedImage = await storeImage(imageFile, "projects");
   if (!storedImage.isStored) {
     return { fieldErrors: { image: storedImage.errorMessage }, isSaved: false };
   }
 
   const [createdProject] = await getDb()
     .insert(projects)
-    .values({ ...result.values, ...storedImage.image })
+    .values({
+      ...result.values,
+      imageSrc: storedImage.image.src,
+      imageWidth: storedImage.image.width,
+      imageHeight: storedImage.image.height,
+    })
     .returning({ id: projects.id });
   updateTag("projects");
   redirect(`/admin/projects/${createdProject.id}`);

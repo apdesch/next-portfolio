@@ -5,15 +5,14 @@ import getSafeFileName from "@/lib/get-safe-file-name";
 
 const maximumImageEdgePixels = 2400;
 
-type StoredProjectImage = {
-  imageSrc: string;
-  imageWidth: number;
-  imageHeight: number;
-};
+type StoredImage = { src: string; width: number; height: number };
 
-type StoreProjectImageResult =
-  | { isStored: true; image: StoredProjectImage }
+type StoreImageResult =
+  | { isStored: true; image: StoredImage }
   | { isStored: false; errorMessage: string };
+
+// Storage folders: project images and gallery photos.
+type ImageFolder = "projects" | "gallery";
 
 // sharp reports AVIF as "heif" with AV1 compression.
 const isAcceptedImageFormat = (metadata: Metadata): boolean =>
@@ -44,9 +43,10 @@ const readImageMetadata = async (
   }
 };
 
-const storeProjectImage = async (
+const storeImage = async (
   file: File,
-): Promise<StoreProjectImageResult> => {
+  folder: ImageFolder,
+): Promise<StoreImageResult> => {
   const fileBytes = Buffer.from(await file.arrayBuffer());
   const metadata = await readImageMetadata(fileBytes);
   if (!metadata || !isAcceptedImageFormat(metadata)) {
@@ -58,18 +58,18 @@ const storeProjectImage = async (
 
   const webpImage = await createWebpImage(fileBytes);
   const blob = await put(
-    `projects/${getSafeFileName(file.name)}.webp`,
+    `${folder}/${getSafeFileName(file.name)}.webp`,
     webpImage.data,
     { access: "public", addRandomSuffix: true, contentType: "image/webp" },
   );
   return {
     isStored: true,
     image: {
-      imageSrc: blob.url,
-      imageWidth: webpImage.info.width,
-      imageHeight: webpImage.info.height,
+      src: blob.url,
+      width: webpImage.info.width,
+      height: webpImage.info.height,
     },
   };
 };
 
-export default storeProjectImage;
+export default storeImage;

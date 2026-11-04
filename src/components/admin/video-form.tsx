@@ -9,6 +9,7 @@ import {
   useActionState,
   useState,
 } from "react";
+import ButtonLabel from "@/components/admin/button-label";
 import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
 import FormField from "@/components/admin/form-field";
 import VideoPreviewButton from "@/components/admin/video-preview-button";
@@ -141,7 +142,7 @@ const VideoForm: FC<VideoFormProps> = ({ video, saveVideo, deleteVideo }) => {
           disabled={isPending}
           className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
         >
-          {isPending ? "Saving…" : "Save"}
+          <ButtonLabel isBusy={isPending} label="Save" busyLabel="Saving…" />
         </button>
       </div>
     </div>

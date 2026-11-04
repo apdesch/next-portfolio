@@ -2,6 +2,7 @@
 
 import type { FC, ReactNode } from "react";
 import { useFormStatus } from "react-dom";
+import ButtonLabel from "@/components/admin/button-label";
 
 type ConfirmDeleteButtonProps = {
   // Unique on the page, because a list can have one confirmation per item.
@@ -9,6 +10,8 @@ type ConfirmDeleteButtonProps = {
   title: string;
   children: ReactNode;
   confirmDelete: () => Promise<void>;
+  // The Delete trigger's look, when the default red text doesn't suit its background.
+  triggerClassName?: string;
 };
 
 // Inside the form, so it can read whether that form is still submitting. While it is, both
@@ -34,7 +37,7 @@ const ConfirmButtons: FC<ConfirmButtonsProps> = ({ popoverId }) => {
         disabled={isDeleting}
         className="rounded-md bg-red-700 px-4 py-2 text-sm font-medium text-white enabled:hover:bg-red-700/90 disabled:opacity-60 dark:bg-red-500 dark:enabled:hover:bg-red-500/90"
       >
-        {isDeleting ? "Deleting…" : "Delete"}
+        <ButtonLabel isBusy={isDeleting} label="Delete" busyLabel="Deleting…" />
       </button>
     </>
   );
@@ -48,12 +51,13 @@ const ConfirmDeleteButton: FC<ConfirmDeleteButtonProps> = ({
   title,
   children,
   confirmDelete,
+  triggerClassName = "text-sm text-red-700 hover:underline dark:text-red-400",
 }) => (
   <>
     <button
       type="button"
       popoverTarget={popoverId}
-      className="text-sm text-red-700 hover:underline dark:text-red-400"
+      className={triggerClassName}
     >
       Delete
     </button>

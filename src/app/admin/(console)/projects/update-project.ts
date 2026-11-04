@@ -13,7 +13,7 @@ import parseProjectForm, {
   type ProjectFormState,
 } from "@/lib/project-form-schema";
 import requireAdminSession from "@/lib/require-admin-session";
-import storeProjectImage from "@/lib/store-project-image";
+import storeImage from "@/lib/store-image";
 
 // The edit page binds the project's ID as the first argument. Without a new image, the
 // project keeps its current one.
@@ -43,14 +43,23 @@ const updateProject = async (
     .where(eq(projects.id, projectId));
   if (!existingProject) notFound();
 
-  const storedImage = imageFile ? await storeProjectImage(imageFile) : null;
+  const storedImage = imageFile
+    ? await storeImage(imageFile, "projects")
+    : null;
   if (storedImage && !storedImage.isStored) {
     return { fieldErrors: { image: storedImage.errorMessage }, isSaved: false };
   }
 
   await getDb()
     .update(projects)
-    .set({ ...result.values, ...storedImage?.image })
+    .set({
+      ...result.values,
+      ...(storedImage?.isStored && {
+        imageSrc: storedImage.image.src,
+        imageWidth: storedImage.image.width,
+        imageHeight: storedImage.image.height,
+      }),
+    })
     .where(eq(projects.id, projectId));
   updateTag("projects");
   if (storedImage) await deleteStoredFile(existingProject.imageSrc);
