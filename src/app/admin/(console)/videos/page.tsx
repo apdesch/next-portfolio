@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { FC } from "react";
+import { type FC, Suspense } from "react";
+import AdminPageLoading from "@/components/admin/admin-page-loading";
 import moveVideo from "@/app/admin/(console)/videos/move-video";
 import VideoList from "@/components/admin/video-list";
 import getAdminVideos from "@/db/admin/get-admin-videos";
 
-const AdminVideosPage: FC = async () => {
+const AdminVideosContent: FC = async () => {
   const videos = await getAdminVideos();
 
   return (
@@ -28,6 +29,14 @@ const AdminVideosPage: FC = async () => {
     </div>
   );
 };
+
+// Its own Suspense boundary, so opening this page from anywhere in the admin shows the
+// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+const AdminVideosPage: FC = () => (
+  <Suspense fallback={<AdminPageLoading />}>
+    <AdminVideosContent />
+  </Suspense>
+);
 
 export const metadata: Metadata = { title: "Videos" };
 

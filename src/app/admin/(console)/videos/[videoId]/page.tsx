@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { FC } from "react";
+import { type FC, Suspense } from "react";
+import AdminPageLoading from "@/components/admin/admin-page-loading";
 import deleteVideo from "@/app/admin/(console)/videos/delete-video";
 import updateVideo from "@/app/admin/(console)/videos/update-video";
 import VideoForm from "@/components/admin/video-form";
 import getAdminVideo from "@/db/admin/get-admin-video";
 
-const EditVideoPage: FC<PageProps<"/admin/videos/[videoId]">> = async ({
+const EditVideoContent: FC<PageProps<"/admin/videos/[videoId]">> = async ({
   params,
 }) => {
   const { videoId } = await params;
@@ -31,6 +32,14 @@ const EditVideoPage: FC<PageProps<"/admin/videos/[videoId]">> = async ({
     </div>
   );
 };
+
+// Its own Suspense boundary, so opening this page from anywhere in the admin shows the
+// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+const EditVideoPage: FC<PageProps<"/admin/videos/[videoId]">> = (props) => (
+  <Suspense fallback={<AdminPageLoading />}>
+    <EditVideoContent {...props} />
+  </Suspense>
+);
 
 export const metadata: Metadata = { title: "Edit video" };
 

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import type { FC } from "react";
+import { type FC, Suspense } from "react";
+import AdminPageLoading from "@/components/admin/admin-page-loading";
 import getAdminProjects from "@/db/admin/get-admin-projects";
 import projectCategoryLabels from "@/lib/project-category-labels";
 
@@ -13,7 +14,7 @@ const formatProjectDate = (date: string): string =>
     timeZone: "UTC",
   });
 
-const AdminProjectsPage: FC = async () => {
+const AdminProjectsContent: FC = async () => {
   const projects = await getAdminProjects();
 
   return (
@@ -59,6 +60,14 @@ const AdminProjectsPage: FC = async () => {
     </div>
   );
 };
+
+// Its own Suspense boundary, so opening this page from anywhere in the admin shows the
+// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+const AdminProjectsPage: FC = () => (
+  <Suspense fallback={<AdminPageLoading />}>
+    <AdminProjectsContent />
+  </Suspense>
+);
 
 export const metadata: Metadata = { title: "Projects" };
 

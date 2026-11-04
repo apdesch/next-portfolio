@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { FC } from "react";
+import { type FC, Suspense } from "react";
+import AdminPageLoading from "@/components/admin/admin-page-loading";
 import deleteProject from "@/app/admin/(console)/projects/delete-project";
 import updateProject from "@/app/admin/(console)/projects/update-project";
 import ProjectForm from "@/components/admin/project-form";
 import getAdminProject from "@/db/admin/get-admin-project";
 
-const EditProjectPage: FC<PageProps<"/admin/projects/[projectId]">> = async ({
-  params,
-}) => {
+const EditProjectContent: FC<
+  PageProps<"/admin/projects/[projectId]">
+> = async ({ params }) => {
   const { projectId } = await params;
   const project = await getAdminProject(Number(projectId));
   if (!project) notFound();
@@ -31,6 +32,16 @@ const EditProjectPage: FC<PageProps<"/admin/projects/[projectId]">> = async ({
     </div>
   );
 };
+
+// Its own Suspense boundary, so opening this page from anywhere in the admin shows the
+// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+const EditProjectPage: FC<PageProps<"/admin/projects/[projectId]">> = (
+  props,
+) => (
+  <Suspense fallback={<AdminPageLoading />}>
+    <EditProjectContent {...props} />
+  </Suspense>
+);
 
 export const metadata: Metadata = { title: "Edit project" };
 

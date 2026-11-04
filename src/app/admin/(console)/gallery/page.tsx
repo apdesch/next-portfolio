@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import type { FC } from "react";
+import { type FC, Suspense } from "react";
+import AdminPageLoading from "@/components/admin/admin-page-loading";
 import deleteGalleryPhoto from "@/app/admin/(console)/gallery/delete-gallery-photo";
 import moveGalleryPhoto from "@/app/admin/(console)/gallery/move-gallery-photo";
 import uploadGalleryPhoto from "@/app/admin/(console)/gallery/upload-gallery-photo";
@@ -9,7 +10,7 @@ import MultiFileUploadForm from "@/components/admin/multi-file-upload-form";
 import getAdminGalleryPhotos from "@/db/admin/get-admin-gallery-photos";
 import groupPhotosByCategory from "@/lib/group-photos-by-category";
 
-const AdminGalleryPage: FC = async () => {
+const AdminGalleryContent: FC = async () => {
   const photos = await getAdminGalleryPhotos();
   const galleries = groupPhotosByCategory(photos);
   const categories = galleries.map((gallery) => gallery.category);
@@ -49,6 +50,14 @@ const AdminGalleryPage: FC = async () => {
     </div>
   );
 };
+
+// Its own Suspense boundary, so opening this page from anywhere in the admin shows the
+// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+const AdminGalleryPage: FC = () => (
+  <Suspense fallback={<AdminPageLoading />}>
+    <AdminGalleryContent />
+  </Suspense>
+);
 
 export const metadata: Metadata = { title: "Gallery" };
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import type { FC } from "react";
+import { type FC, Suspense } from "react";
+import AdminPageLoading from "@/components/admin/admin-page-loading";
 import deleteFile from "@/app/admin/(console)/files/delete-file";
 import setResumeFile from "@/app/admin/(console)/files/set-resume-file";
 import uploadFile from "@/app/admin/(console)/files/upload-file";
@@ -42,7 +43,7 @@ const getLinkingProjectTitles = (
     .filter((project) => project.body.includes(fileUrl))
     .map((project) => project.title);
 
-const AdminFilesPage: FC = async () => {
+const AdminFilesContent: FC = async () => {
   const [files, projects] = await Promise.all([
     getAdminFiles(),
     getAdminProjects(),
@@ -148,6 +149,14 @@ const AdminFilesPage: FC = async () => {
     </div>
   );
 };
+
+// Its own Suspense boundary, so opening this page from anywhere in the admin shows the
+// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+const AdminFilesPage: FC = () => (
+  <Suspense fallback={<AdminPageLoading />}>
+    <AdminFilesContent />
+  </Suspense>
+);
 
 export const metadata: Metadata = { title: "Files" };
 

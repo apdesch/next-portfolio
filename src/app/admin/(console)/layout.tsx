@@ -18,8 +18,9 @@ const ProfileMenuPlaceholder: FC = () => (
 );
 
 // The header and sidebar hold no private data, so they render instantly on every
-// navigation. Only the profile menu and the page wait for the session. proxy.ts and the
-// src/db/admin functions do the guarding, so this layout doesn't need to.
+// navigation. The profile menu waits for the session here; each page has its own Suspense
+// boundary, because a boundary in this shared layout doesn't trigger when moving between
+// admin pages. proxy.ts and the src/db/admin functions do the guarding.
 const ConsoleLayout: FC<LayoutProps<"/admin">> = ({ children }) => (
   <div className="grid h-dvh grid-rows-[auto_1fr]">
     <AdminHeader
@@ -31,13 +32,7 @@ const ConsoleLayout: FC<LayoutProps<"/admin">> = ({ children }) => (
     />
     <div className="grid min-h-0 desktop:grid-cols-[auto_1fr]">
       <AdminSidebar />
-      <main className="@container min-h-0 overflow-y-auto">
-        <Suspense
-          fallback={<p className="m-0 p-6 text-sm opacity-70">Loading…</p>}
-        >
-          {children}
-        </Suspense>
-      </main>
+      <main className="@container min-h-0 overflow-y-auto">{children}</main>
     </div>
   </div>
 );
