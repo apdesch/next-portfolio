@@ -110,7 +110,7 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Feature work (pages, API, auth, admin) happens on a new branch, not on the setup branch.
 - Keep work local (no push, no PR) until I've seen it running on my machine and say otherwise.
 - Never commit without my approval. Show me the diff and proposed message, then wait for my OK.
-- After changes, run `pnpm lint`, `pnpm typecheck` and `pnpm build` (and tests once they exist),
+- After changes, run `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm build`,
   then summarize what changed in plain language.
 - If you are unsure about a requirement, ask instead of guessing.
 
@@ -120,6 +120,7 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - `pnpm build` — production build
 - `pnpm lint` — ESLint
 - `pnpm typecheck` — `next typegen && tsc --noEmit`
+- `pnpm test` — Vitest unit tests (files ending in `.test.ts`)
 - `pnpm knip` — find unused files, exports and dependencies
 - `pnpm format` / `pnpm format:check` — Prettier (write / verify)
 - `pnpm db:generate --name <change>` — generate a SQL migration from the tables in `src/db/tables/`
