@@ -139,7 +139,7 @@ const VideoForm: FC<VideoFormProps> = ({ video, saveVideo, deleteVideo }) => {
           type="submit"
           form="video-form"
           disabled={isPending}
-          className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:hover:bg-admin-accent-dark/90"
+          className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
         >
           {isPending ? "Saving…" : "Save"}
         </button>

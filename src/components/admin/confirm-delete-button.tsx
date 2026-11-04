@@ -25,14 +25,14 @@ const ConfirmButtons: FC<ConfirmButtonsProps> = ({ popoverId }) => {
         popoverTarget={popoverId}
         popoverTargetAction="hide"
         disabled={isDeleting}
-        className="rounded-md px-4 py-2 text-sm hover:bg-admin-dark/5 disabled:opacity-60 dark:hover:bg-admin-light/10"
+        className="rounded-md px-4 py-2 text-sm enabled:hover:bg-admin-dark/5 disabled:opacity-60 dark:enabled:hover:bg-admin-light/10"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={isDeleting}
-        className="rounded-md bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-700/90 disabled:opacity-60 dark:bg-red-500 dark:hover:bg-red-500/90"
+        className="rounded-md bg-red-700 px-4 py-2 text-sm font-medium text-white enabled:hover:bg-red-700/90 disabled:opacity-60 dark:bg-red-500 dark:enabled:hover:bg-red-500/90"
       >
         {isDeleting ? "Deleting…" : "Delete"}
       </button>

@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import type { FC } from "react";
 import deleteFile from "@/app/admin/(console)/files/delete-file";
+import uploadFile from "@/app/admin/(console)/files/upload-file";
 import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
 import CopyLinkButton from "@/components/admin/copy-link-button";
-import FileUploadForm from "@/components/admin/file-upload-form";
+import MultiFileUploadForm from "@/components/admin/multi-file-upload-form";
 import getAdminFiles from "@/db/admin/get-admin-files";
 import getAdminProjects from "@/db/admin/get-admin-projects";
 import type { Project } from "@/db/tables/projects";
@@ -51,7 +52,12 @@ const AdminFilesPage: FC = async () => {
         <h1 className="m-0 text-2xl font-semibold">Files</h1>
         <p className="m-0 text-sm opacity-70">{files.length} files</p>
       </div>
-      <FileUploadForm />
+      <MultiFileUploadForm
+        label="Upload files"
+        accept=".pdf,.txt,.md,.ts,.js,.py"
+        hint="PDF, .txt, .md, .ts, .js or .py, up to 4 MB each."
+        uploadOne={uploadFile}
+      />
       <ul className="m-0 mt-6 grid list-none gap-4 p-0 @xl:grid-cols-3 @4xl:grid-cols-4">
         {files.map((file) => {
           const linkingProjectTitles = getLinkingProjectTitles(
