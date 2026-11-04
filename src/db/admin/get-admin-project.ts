@@ -2,12 +2,12 @@ import "server-only";
 import { eq } from "drizzle-orm";
 import getDb from "@/db/client";
 import projects, { type Project } from "@/db/tables/projects";
-import isValidProjectId from "@/lib/is-valid-project-id";
+import isValidId from "@/lib/is-valid-id";
 import requireAdminSession from "@/lib/require-admin-session";
 
 const getAdminProject = async (projectId: number): Promise<Project | null> => {
   await requireAdminSession();
-  if (!isValidProjectId(projectId)) return null;
+  if (!isValidId(projectId)) return null;
   const [project] = await getDb()
     .select()
     .from(projects)

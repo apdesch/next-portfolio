@@ -58,7 +58,10 @@ type ProjectFormValues = z.output<typeof projectFormSchema>;
 // The form's field names (month and year), not the stored columns (date).
 type ProjectFormField = keyof z.input<typeof projectFormSchema>;
 
-export type ProjectFormErrors = Partial<Record<ProjectFormField, string>>;
+// The image is checked separately (see check-image-file.ts) but reports errors the same way.
+export type ProjectFormErrors = Partial<
+  Record<ProjectFormField | "image", string>
+>;
 
 // What the form shows after a save attempt.
 export type ProjectFormState = {

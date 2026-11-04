@@ -5,32 +5,55 @@ import { updateTag } from "next/cache";
 import { notFound } from "next/navigation";
 import getDb from "@/db/client";
 import projects from "@/db/tables/projects";
-import isValidProjectId from "@/lib/is-valid-project-id";
+import checkImageFile from "@/lib/check-image-file";
+import deleteStoredFile from "@/lib/delete-stored-file";
+import getUploadedFile from "@/lib/get-uploaded-file";
+import isValidId from "@/lib/is-valid-id";
 import parseProjectForm, {
   type ProjectFormState,
 } from "@/lib/project-form-schema";
 import requireAdminSession from "@/lib/require-admin-session";
+import storeProjectImage from "@/lib/store-project-image";
 
-// The edit page binds the project's ID as the first argument.
+// The edit page binds the project's ID as the first argument. Without a new image, the
+// project keeps its current one.
 const updateProject = async (
   projectId: number,
   _previousState: ProjectFormState,
   formData: FormData,
 ): Promise<ProjectFormState> => {
   await requireAdminSession();
-  if (!isValidProjectId(projectId)) notFound();
+  if (!isValidId(projectId)) notFound();
   const result = parseProjectForm(formData);
-  if (!result.isValid) {
-    return { fieldErrors: result.fieldErrors, isSaved: false };
+  const imageFile = getUploadedFile(formData, "image");
+  const imageError = checkImageFile(imageFile, false);
+  if (!result.isValid || imageError) {
+    return {
+      fieldErrors: {
+        ...(result.isValid ? {} : result.fieldErrors),
+        ...(imageError ? { image: imageError } : {}),
+      },
+      isSaved: false,
+    };
   }
 
-  const [updatedProject] = await getDb()
+  const [existingProject] = await getDb()
+    .select({ imageSrc: projects.imageSrc })
+    .from(projects)
+    .where(eq(projects.id, projectId));
+  if (!existingProject) notFound();
+
+  const storedImage = imageFile ? await storeProjectImage(imageFile) : null;
+  if (storedImage && !storedImage.isStored) {
+    return { fieldErrors: { image: storedImage.errorMessage }, isSaved: false };
+  }
+
+  await getDb()
     .update(projects)
-    .set(result.values)
-    .where(eq(projects.id, projectId))
-    .returning({ id: projects.id });
-  if (!updatedProject) notFound();
+    .set({ ...result.values, ...storedImage?.image })
+    .where(eq(projects.id, projectId));
   updateTag("projects");
+  if (storedImage) await deleteStoredFile(existingProject.imageSrc);
   return { fieldErrors: {}, isSaved: true };
 };
 

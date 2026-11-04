@@ -3,14 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  type ChangeEvent,
   type FC,
   type FormEvent,
   type ReactNode,
   startTransition,
   useActionState,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
-import DeleteProjectButton from "@/components/admin/delete-project-button";
+import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
 import type { Project } from "@/db/tables/projects";
+import checkImageFile from "@/lib/check-image-file";
+import getUploadedFile from "@/lib/get-uploaded-file";
 import projectCategoryLabels from "@/lib/project-category-labels";
 import type {
   ProjectFormErrors,
@@ -28,6 +34,8 @@ type ProjectFormProps = {
 
 type ProjectFieldName = keyof ProjectFormErrors;
 
+type ProjectTextFieldName = Exclude<ProjectFieldName, "image">;
+
 const initialFormState: ProjectFormState = {
   fieldErrors: {},
   isSaved: false,
@@ -35,7 +43,7 @@ const initialFormState: ProjectFormState = {
 
 const getProjectFieldValues = (
   project?: Project,
-): Record<ProjectFieldName, string> => ({
+): Record<ProjectTextFieldName, string> => ({
   title: project?.title ?? "",
   company: project?.company ?? "",
   category: project?.category ?? "",
@@ -104,18 +112,49 @@ const ProjectForm: FC<ProjectFormProps> = ({
     initialFormState,
   );
   const projectValues = getProjectFieldValues(project);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [browserImageError, setBrowserImageError] = useState<string | null>(
+    null,
+  );
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const imageErrorMessage = browserImageError ?? state.fieldErrors.image;
+
+  // After a save the image is stored, so the picker empties; saving again for a text edit
+  // won't upload the same image twice. The preview keeps showing it.
+  useEffect(() => {
+    const imageInput = imageInputRef.current;
+    if (state.isSaved && imageInput) imageInput.value = "";
+  }, [state]);
+  const shownImageSrc = imagePreviewUrl ?? project?.imageSrc ?? null;
+
+  // Checks the chosen image right away and previews it before it's uploaded.
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const imageFile = event.currentTarget.files?.[0] ?? null;
+    const imageError = checkImageFile(imageFile, false);
+    setBrowserImageError(imageError);
+    if (imagePreviewUrl) URL.revokeObjectURL(imagePreviewUrl);
+    setImagePreviewUrl(
+      imageFile && !imageError ? URL.createObjectURL(imageFile) : null,
+    );
+  };
 
   // Submits without the form `action` prop, because React resets a form after its action
   // runs (and selects snap back to their first value). This keeps every field as typed.
+  // A wrong or oversized image is stopped here: the server would reject the whole request.
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const imageFile = getUploadedFile(formData, "image");
+    const imageError = imageFile ? checkImageFile(imageFile, false) : null;
+    setBrowserImageError(imageError);
+    if (imageError) return;
     startTransition(() => submitProject(formData));
   };
-  const hasErrors = Object.keys(state.fieldErrors).length > 0;
+  const hasErrors =
+    Object.keys(state.fieldErrors).length > 0 || browserImageError !== null;
 
   // Each control gets its name, starting value and error wiring from one place.
-  const getControlProps = (name: ProjectFieldName) => ({
+  const getControlProps = (name: ProjectTextFieldName) => ({
     id: name,
     name,
     defaultValue: projectValues[name],
@@ -227,26 +266,47 @@ const ProjectForm: FC<ProjectFormProps> = ({
             className={`${inputClassName} font-mono`}
           />
         </Field>
-        <div className="@2xl:col-span-2">
-          <p className="mt-0 mb-1 text-sm font-medium">Image</p>
+        <Field
+          name="image"
+          label="Image"
+          errorMessage={imageErrorMessage}
+          isWide
+        >
           <div className="flex items-center gap-4">
-            {project && (
-              <Image
-                src={project.imageSrc}
-                alt=""
-                width={project.imageWidth}
-                height={project.imageHeight}
-                sizes="8em"
-                className="aspect-3/2 w-32 rounded-md object-cover"
-              />
+            {shownImageSrc && (
+              <div className="relative aspect-3/2 w-32 shrink-0 overflow-hidden rounded-md">
+                {/* A preview is a local blob: URL, which the image optimizer can't fetch. */}
+                <Image
+                  src={shownImageSrc}
+                  alt=""
+                  fill
+                  sizes="8em"
+                  unoptimized={imagePreviewUrl !== null}
+                  className="object-cover"
+                />
+              </div>
             )}
-            <p className="m-0 text-sm opacity-70">
-              {project
-                ? "Image upload arrives in the next step."
-                : "New projects start with a placeholder image. Image upload arrives in the next step."}
-            </p>
+            <div>
+              <input
+                ref={imageInputRef}
+                id="image"
+                name="image"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/avif"
+                onChange={handleImageChange}
+                aria-invalid={imageErrorMessage ? true : undefined}
+                aria-describedby={
+                  imageErrorMessage ? "image-error image-hint" : "image-hint"
+                }
+                className="text-sm file:mr-3 file:rounded-md file:border file:border-admin-dark/20 file:bg-white file:px-3 file:py-2 dark:file:border-admin-light/20 dark:file:bg-admin-light/10 dark:file:text-admin-light"
+              />
+              <p id="image-hint" className="mt-1 mb-0 text-sm opacity-70">
+                JPEG, PNG, WebP or AVIF, up to 4 MB.
+                {project && " Leave empty to keep the current image."}
+              </p>
+            </div>
           </div>
-        </div>
+        </Field>
         <Field
           name="imageAlt"
           label="Image description (alt text)"
@@ -264,7 +324,15 @@ const ProjectForm: FC<ProjectFormProps> = ({
       </form>
       {/* Outside the form, so the delete confirmation's own form isn't nested in it. */}
       <div className="flex items-center gap-3 border-t border-admin-dark/10 px-6 py-4 dark:border-admin-light/10">
-        {deleteProject && <DeleteProjectButton deleteProject={deleteProject} />}
+        {deleteProject && (
+          <ConfirmDeleteButton
+            popoverId="delete-project"
+            title="Delete this project?"
+            confirmDelete={deleteProject}
+          >
+            It can&rsquo;t be undone.
+          </ConfirmDeleteButton>
+        )}
         <p
           role="status"
           className="m-0 ml-auto text-sm text-admin-dark/70 dark:text-admin-light/70"
