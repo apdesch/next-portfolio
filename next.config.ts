@@ -11,8 +11,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       // Video thumbnails in the admin's Videos section.
       new URL("https://i.ytimg.com/vi/**"),
-      // Uploaded images, in the next-portfolio-blob store.
+      // Uploaded images: the live site's store (next-portfolio-blob), and the store previews
+      // and local development use (next-portfolio-blob-dev). Copies of production's
+      // database still show live images, so every environment needs both.
       new URL("https://5izkzsfudd7zkutj.public.blob.vercel-storage.com/**"),
+      new URL("https://ewql4yqgokos7cal.public.blob.vercel-storage.com/**"),
       // Placeholder images only; remove once real project and gallery photos are added.
       new URL("https://placehold.co/**"),
     ],
