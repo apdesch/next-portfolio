@@ -23,6 +23,8 @@ jobs:
       # The build prerenders public pages from the database, so it reads a Neon branch made
       # for CI (a copy of production). GitHub doesn't pass secrets to pull requests from forks.
       DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
+      # Migrations need the direct (unpooled) connection.
+      DATABASE_URL_UNPOOLED: ${{ secrets.CI_DATABASE_URL_UNPOOLED }}
       # CI never serves requests; a local address keeps Better Auth from warning on every page.
       BETTER_AUTH_URL: http://localhost:3000
     steps:
@@ -49,4 +51,7 @@ jobs:
       - run: pnpm test
       - run: pnpm knip
       - run: pnpm format:check
+      # Brings the CI branch's tables up to date with this code before the build reads them,
+      # as Vercel's build does for production and each preview.
+      - run: pnpm db:migrate
       - run: pnpm build
