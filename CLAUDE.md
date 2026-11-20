@@ -128,3 +128,5 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - `pnpm db:seed` — fill empty tables with placeholder content (tables with rows are skipped)
 - `pnpm admin:create` — create the single admin account (prompts for email and password;
   run it yourself in your own terminal, never with a password in the command)
+- `pnpm admin:reset-password` — set a new admin password and sign out every browser (same
+  prompts and rules as `admin:create`; there are no "forgot password" emails)

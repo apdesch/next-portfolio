@@ -16,7 +16,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "node --env-file=.env.local scripts/seed-placeholders.ts",
     "admin:create": "node --env-file=.env.local scripts/create-admin-user.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "admin:reset-password": "node --env-file=.env.local scripts/reset-admin-password.ts"
   },
   "engines": {
     "node": ">=24"
