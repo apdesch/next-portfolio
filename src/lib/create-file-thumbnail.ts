@@ -1,7 +1,6 @@
 import "server-only";
 import { join } from "node:path";
 import { createCanvas, GlobalFonts } from "@napi-rs/canvas";
-import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import sharp from "sharp";
 
 // Thumbnails are drawn at twice their final size, then scaled down for crisp edges.
@@ -30,7 +29,10 @@ const saveThumbnail = async (pngBytes: Buffer): Promise<Buffer> =>
 
 // Renders the first page with PDF.js's core library, which draws pages but never runs a
 // PDF's scripts (only the full viewer can).
+// PDF.js takes about 0.7 s to load, so it's imported only when a PDF thumbnail is made,
+// not whenever the Files page or a text upload loads this module.
 const createPdfThumbnail = async (pdfBytes: Uint8Array): Promise<Buffer> => {
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const loadingTask = getDocument({
     // A copy: PDF.js may take over (and empty) the array it's given, and the caller
     // still needs the original bytes to store the PDF.

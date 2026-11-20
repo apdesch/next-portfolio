@@ -10,6 +10,7 @@ import deleteStoredFile from "@/lib/delete-stored-file";
 import parseGalleryPhotoForm, {
   type GalleryPhotoFormState,
 } from "@/lib/gallery-photo-form-schema";
+import getFailedFormState from "@/lib/get-failed-form-state";
 import getUploadedFile from "@/lib/get-uploaded-file";
 import isValidId from "@/lib/is-valid-id";
 import requireAdminSession from "@/lib/require-admin-session";
@@ -27,13 +28,7 @@ const updateGalleryPhoto = async (
   const imageFile = getUploadedFile(formData, "image");
   const imageError = checkImageFile(imageFile, false);
   if (!result.isValid || imageError) {
-    return {
-      fieldErrors: {
-        ...(result.isValid ? {} : result.fieldErrors),
-        ...(imageError ? { image: imageError } : {}),
-      },
-      isSaved: false,
-    };
+    return getFailedFormState(result, imageError);
   }
 
   const [existingPhoto] = await getDb()

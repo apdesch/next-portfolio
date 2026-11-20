@@ -6,22 +6,18 @@ import AdminPageLoading from "@/components/admin/admin-page-loading";
 import deleteGalleryPhoto from "@/app/admin/(console)/gallery/delete-gallery-photo";
 import updateGalleryPhoto from "@/app/admin/(console)/gallery/update-gallery-photo";
 import GalleryPhotoForm from "@/components/admin/gallery-photo-form";
+import getAdminGalleryCategories from "@/db/admin/get-admin-gallery-categories";
 import getAdminGalleryPhoto from "@/db/admin/get-admin-gallery-photo";
-import getAdminGalleryPhotos from "@/db/admin/get-admin-gallery-photos";
-import groupPhotosByCategory from "@/lib/group-photos-by-category";
 
 const EditGalleryPhotoContent: FC<
   PageProps<"/admin/gallery/[photoId]">
 > = async ({ params }) => {
   const { photoId } = await params;
-  const [photo, allPhotos] = await Promise.all([
+  const [photo, categories] = await Promise.all([
     getAdminGalleryPhoto(Number(photoId)),
-    getAdminGalleryPhotos(),
+    getAdminGalleryCategories(),
   ]);
   if (!photo) notFound();
-  const categories = groupPhotosByCategory(allPhotos).map(
-    (gallery) => gallery.category,
-  );
 
   return (
     <div className="mx-auto max-w-2xl p-6">

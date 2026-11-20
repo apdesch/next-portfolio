@@ -1,19 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import {
   type FC,
-  type FormEvent,
+  type SubmitEvent,
   startTransition,
   useActionState,
   useState,
 } from "react";
-import ButtonLabel from "@/components/admin/button-label";
 import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
 import FormField from "@/components/admin/form-field";
+import FormFooter from "@/components/admin/form-footer";
 import VideoPreviewButton from "@/components/admin/video-preview-button";
 import type { Video } from "@/db/tables/videos";
+import adminCardClassName from "@/lib/admin-card-class-name";
 import adminInputClassName from "@/lib/admin-input-class-name";
 import getYoutubeThumbnailUrl from "@/lib/get-youtube-thumbnail-url";
 import getYoutubeVideoId from "@/lib/get-youtube-video-id";
@@ -41,7 +41,7 @@ const VideoForm: FC<VideoFormProps> = ({ video, saveVideo, deleteVideo }) => {
   const hasErrors = Object.keys(state.fieldErrors).length > 0;
 
   // Submits without the form `action` prop, so React doesn't reset the fields after saving.
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     startTransition(() => submitVideo(formData));
@@ -53,7 +53,7 @@ const VideoForm: FC<VideoFormProps> = ({ video, saveVideo, deleteVideo }) => {
   });
 
   return (
-    <div className="rounded-lg border border-admin-dark/10 bg-white/50 dark:border-admin-light/10 dark:bg-admin-light/5">
+    <div className={adminCardClassName}>
       <form
         id="video-form"
         onSubmit={handleSubmit}
@@ -113,38 +113,24 @@ const VideoForm: FC<VideoFormProps> = ({ video, saveVideo, deleteVideo }) => {
           />
         </FormField>
       </form>
-      <div className="flex items-center gap-3 border-t border-admin-dark/10 px-6 py-4 dark:border-admin-light/10">
-        {deleteVideo && (
-          <ConfirmDeleteButton
-            popoverId="delete-video"
-            title="Delete this video?"
-            confirmDelete={deleteVideo}
-          >
-            It comes off the home page. The video stays on YouTube.
-          </ConfirmDeleteButton>
-        )}
-        <p
-          role="status"
-          className="m-0 ml-auto text-sm text-admin-dark/70 dark:text-admin-light/70"
-        >
-          {state.isSaved && !isPending && "Saved"}
-          {hasErrors && !isPending && "Check the highlighted fields."}
-        </p>
-        <Link
-          href="/admin/videos"
-          className="rounded-md px-4 py-2 text-sm hover:bg-admin-dark/5 dark:hover:bg-admin-light/10"
-        >
-          Cancel
-        </Link>
-        <button
-          type="submit"
-          form="video-form"
-          disabled={isPending}
-          className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
-        >
-          <ButtonLabel isBusy={isPending} label="Save" busyLabel="Saving…" />
-        </button>
-      </div>
+      <FormFooter
+        formId="video-form"
+        cancelHref="/admin/videos"
+        isPending={isPending}
+        isSaved={state.isSaved}
+        hasErrors={hasErrors}
+        deleteButton={
+          deleteVideo && (
+            <ConfirmDeleteButton
+              popoverId="delete-video"
+              title="Delete this video?"
+              confirmDelete={deleteVideo}
+            >
+              It comes off the home page. The video stays on YouTube.
+            </ConfirmDeleteButton>
+          )
+        }
+      />
     </div>
   );
 };

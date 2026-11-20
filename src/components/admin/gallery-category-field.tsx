@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import FormField from "@/components/admin/form-field";
+import adminButtonClassName from "@/lib/admin-button-class-name";
 import adminInputClassName from "@/lib/admin-input-class-name";
 
 type GalleryCategoryFieldProps = {
@@ -129,7 +130,7 @@ const GalleryCategoryField: FC<GalleryCategoryFieldProps> = ({
           <button
             type="button"
             onClick={addGallery}
-            className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
+            className={adminButtonClassName}
           >
             Add gallery
           </button>

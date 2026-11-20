@@ -7,6 +7,8 @@ import getDb from "@/db/client";
 import projects from "@/db/tables/projects";
 import checkImageFile from "@/lib/check-image-file";
 import deleteStoredFile from "@/lib/delete-stored-file";
+import getFailedFormState from "@/lib/get-failed-form-state";
+import getProjectImageColumns from "@/lib/get-project-image-columns";
 import getUploadedFile from "@/lib/get-uploaded-file";
 import isValidId from "@/lib/is-valid-id";
 import parseProjectForm, {
@@ -28,13 +30,7 @@ const updateProject = async (
   const imageFile = getUploadedFile(formData, "image");
   const imageError = checkImageFile(imageFile, false);
   if (!result.isValid || imageError) {
-    return {
-      fieldErrors: {
-        ...(result.isValid ? {} : result.fieldErrors),
-        ...(imageError ? { image: imageError } : {}),
-      },
-      isSaved: false,
-    };
+    return getFailedFormState(result, imageError);
   }
 
   const [existingProject] = await getDb()
@@ -54,11 +50,7 @@ const updateProject = async (
     .update(projects)
     .set({
       ...result.values,
-      ...(storedImage?.isStored && {
-        imageSrc: storedImage.image.src,
-        imageWidth: storedImage.image.width,
-        imageHeight: storedImage.image.height,
-      }),
+      ...(storedImage?.isStored && getProjectImageColumns(storedImage.image)),
     })
     .where(eq(projects.id, projectId));
   updateTag("projects");

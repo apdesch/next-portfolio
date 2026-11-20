@@ -4,6 +4,8 @@ import Link from "next/link";
 import { type FC, Suspense } from "react";
 import AdminPageLoading from "@/components/admin/admin-page-loading";
 import getAdminProjects from "@/db/admin/get-admin-projects";
+import adminButtonClassName from "@/lib/admin-button-class-name";
+import adminCardClassName from "@/lib/admin-card-class-name";
 import projectCategoryLabels from "@/lib/project-category-labels";
 
 // Dates are stored as YYYY-MM-DD; UTC keeps the month from shifting in other time zones.
@@ -24,10 +26,7 @@ const AdminProjectsContent: FC = async () => {
           <h1 className="m-0 text-2xl font-semibold">Projects</h1>
           <p className="m-0 text-sm opacity-70">{projects.length} projects</p>
         </div>
-        <Link
-          href="/admin/projects/new"
-          className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white hover:bg-admin-accent/90 dark:bg-admin-accent-dark dark:text-admin-dark dark:hover:bg-admin-accent-dark/90"
-        >
+        <Link href="/admin/projects/new" className={adminButtonClassName}>
           New project
         </Link>
       </div>
@@ -36,7 +35,7 @@ const AdminProjectsContent: FC = async () => {
           <li key={project.id}>
             <Link
               href={`/admin/projects/${project.id}`}
-              className="block overflow-hidden rounded-lg border border-admin-dark/10 bg-white/50 hover:border-admin-accent dark:border-admin-light/10 dark:bg-admin-light/5 dark:hover:border-admin-accent-dark"
+              className={`${adminCardClassName} block overflow-hidden hover:border-admin-accent dark:hover:border-admin-accent-dark`}
             >
               <Image
                 src={project.imageSrc}

@@ -6,6 +6,7 @@ import { type FC, startTransition, useOptimistic } from "react";
 import MoveButtons from "@/components/admin/move-buttons";
 import VideoPreviewButton from "@/components/admin/video-preview-button";
 import type { Video } from "@/db/tables/videos";
+import adminCardClassName from "@/lib/admin-card-class-name";
 import type { MoveDirection } from "@/lib/find-neighbor";
 import getYoutubeThumbnailUrl from "@/lib/get-youtube-thumbnail-url";
 import getYoutubeVideoId from "@/lib/get-youtube-video-id";
@@ -62,7 +63,9 @@ const VideoList: FC<VideoListProps> = ({ videos, moveVideo }) => {
 
   return (
     // A numbered list, so the up and down buttons read as "move", not as votes.
-    <ol className="m-0 list-none divide-y divide-admin-dark/10 overflow-hidden rounded-lg border border-admin-dark/10 bg-white/50 p-0 dark:divide-admin-light/10 dark:border-admin-light/10 dark:bg-admin-light/5">
+    <ol
+      className={`${adminCardClassName} m-0 list-none divide-y divide-admin-dark/10 overflow-hidden p-0 dark:divide-admin-light/10`}
+    >
       {orderedVideos.map((video, videoIndex) => {
         const videoId = getYoutubeVideoId(video.youtubeUrl);
         return (

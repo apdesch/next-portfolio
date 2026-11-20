@@ -1,15 +1,18 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   type ChangeEvent,
   type FC,
-  type FormEvent,
+  type SubmitEvent,
   type ReactNode,
   useRef,
   useState,
   useTransition,
 } from "react";
 import ButtonLabel from "@/components/admin/button-label";
+import adminButtonClassName from "@/lib/admin-button-class-name";
+import adminCardClassName from "@/lib/admin-card-class-name";
 import maximumUploadBytes from "@/lib/maximum-upload-bytes";
 
 export type UploadOneResult = { errorMessage: string | null };
@@ -43,6 +46,7 @@ const MultiFileUploadForm: FC<MultiFileUploadFormProps> = ({
   uploadOne,
   children,
 }) => {
+  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFileCount, setSelectedFileCount] = useState(0);
   const [progress, setProgress] = useState<UploadProgress | null>(null);
@@ -68,7 +72,7 @@ const MultiFileUploadForm: FC<MultiFileUploadFormProps> = ({
     return errorMessage ? { fileName: file.name, errorMessage } : null;
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const files = [...(fileInputRef.current?.files ?? [])];
     const extraFields = [...new FormData(event.currentTarget)].filter(
@@ -94,13 +98,15 @@ const MultiFileUploadForm: FC<MultiFileUploadFormProps> = ({
       });
       if (fileInputRef.current) fileInputRef.current.value = "";
       setSelectedFileCount(0);
+      // One refresh for the whole batch; the upload actions don't refresh per file.
+      router.refresh();
     });
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-3 rounded-lg border border-admin-dark/10 bg-white/50 p-6 dark:border-admin-light/10 dark:bg-admin-light/5"
+      className={`${adminCardClassName} flex flex-col gap-3 p-6`}
     >
       <div className="flex flex-col gap-3 @xl:flex-row @xl:items-end">
         <div className="min-w-0 flex-1">
@@ -126,7 +132,7 @@ const MultiFileUploadForm: FC<MultiFileUploadFormProps> = ({
         <button
           type="submit"
           disabled={selectedFileCount === 0 || isUploading}
-          className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
+          className={adminButtonClassName}
         >
           <ButtonLabel
             isBusy={isUploading}

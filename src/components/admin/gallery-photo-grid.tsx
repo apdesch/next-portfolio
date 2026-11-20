@@ -7,6 +7,7 @@ import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
 import MoveButtons from "@/components/admin/move-buttons";
 import PreviewModal from "@/components/admin/preview-modal";
 import type { GalleryPhoto } from "@/db/tables/gallery-photos";
+import adminCardClassName from "@/lib/admin-card-class-name";
 import type { MoveDirection } from "@/lib/find-neighbor";
 import moveItem from "@/lib/move-item";
 
@@ -64,10 +65,7 @@ const GalleryPhotoGrid: FC<GalleryPhotoGridProps> = ({
   return (
     <ol className="m-0 grid list-none grid-cols-2 gap-3 p-0 @xl:grid-cols-3 @4xl:grid-cols-5">
       {orderedPhotos.map((photo, photoIndex) => (
-        <li
-          key={photo.id}
-          className="overflow-hidden rounded-lg border border-admin-dark/10 bg-white/50 dark:border-admin-light/10 dark:bg-admin-light/5"
-        >
+        <li key={photo.id} className={`${adminCardClassName} overflow-hidden`}>
           {/* The photo and its description open a preview; Edit opens the form. */}
           <PreviewModal
             title={photo.alt}

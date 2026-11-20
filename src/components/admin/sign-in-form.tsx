@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { type FC, useActionState } from "react";
 import ButtonLabel from "@/components/admin/button-label";
+import adminButtonClassName from "@/lib/admin-button-class-name";
 import adminInputClassName from "@/lib/admin-input-class-name";
 import authClient from "@/lib/auth-client";
 
@@ -79,7 +80,7 @@ const SignInForm: FC = () => {
       <button
         type="submit"
         disabled={isPending}
-        className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
+        className={adminButtonClassName}
       >
         <ButtonLabel
           isBusy={isPending}

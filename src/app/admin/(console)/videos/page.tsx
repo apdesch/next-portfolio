@@ -5,6 +5,7 @@ import AdminPageLoading from "@/components/admin/admin-page-loading";
 import moveVideo from "@/app/admin/(console)/videos/move-video";
 import VideoList from "@/components/admin/video-list";
 import getAdminVideos from "@/db/admin/get-admin-videos";
+import adminButtonClassName from "@/lib/admin-button-class-name";
 
 const AdminVideosContent: FC = async () => {
   const videos = await getAdminVideos();
@@ -18,10 +19,7 @@ const AdminVideosContent: FC = async () => {
             {videos.length} videos, in home page order
           </p>
         </div>
-        <Link
-          href="/admin/videos/new"
-          className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white hover:bg-admin-accent/90 dark:bg-admin-accent-dark dark:text-admin-dark dark:hover:bg-admin-accent-dark/90"
-        >
+        <Link href="/admin/videos/new" className={adminButtonClassName}>
           New video
         </Link>
       </div>

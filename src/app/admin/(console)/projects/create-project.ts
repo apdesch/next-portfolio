@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import getDb from "@/db/client";
 import projects from "@/db/tables/projects";
 import checkImageFile from "@/lib/check-image-file";
+import getFailedFormState from "@/lib/get-failed-form-state";
+import getProjectImageColumns from "@/lib/get-project-image-columns";
 import getUploadedFile from "@/lib/get-uploaded-file";
 import parseProjectForm, {
   type ProjectFormState,
@@ -21,13 +23,7 @@ const createProject = async (
   const imageFile = getUploadedFile(formData, "image");
   const imageError = checkImageFile(imageFile, true);
   if (!result.isValid || imageError || !imageFile) {
-    return {
-      fieldErrors: {
-        ...(result.isValid ? {} : result.fieldErrors),
-        ...(imageError ? { image: imageError } : {}),
-      },
-      isSaved: false,
-    };
+    return getFailedFormState(result, imageError);
   }
 
   const storedImage = await storeImage(imageFile, "projects");
@@ -37,12 +33,7 @@ const createProject = async (
 
   const [createdProject] = await getDb()
     .insert(projects)
-    .values({
-      ...result.values,
-      imageSrc: storedImage.image.src,
-      imageWidth: storedImage.image.width,
-      imageHeight: storedImage.image.height,
-    })
+    .values({ ...result.values, ...getProjectImageColumns(storedImage.image) })
     .returning({ id: projects.id });
   updateTag("projects");
   redirect(`/admin/projects/${createdProject.id}`);

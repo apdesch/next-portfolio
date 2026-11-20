@@ -1,9 +1,9 @@
 "use server";
 
-import { max } from "drizzle-orm";
-import { refresh, updateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import type { UploadOneResult } from "@/components/admin/multi-file-upload-form";
 import getDb from "@/db/client";
+import getNextPositionSql from "@/db/next-position";
 import galleryPhotos from "@/db/tables/gallery-photos";
 import checkImageFile from "@/lib/check-image-file";
 import getAltTextFromFileName from "@/lib/get-alt-text-from-file-name";
@@ -28,19 +28,17 @@ const uploadGalleryPhoto = async (
   const storedImage = await storeImage(file, "gallery");
   if (!storedImage.isStored) return { errorMessage: storedImage.errorMessage };
 
-  const [{ lastPosition }] = await getDb()
-    .select({ lastPosition: max(galleryPhotos.position) })
-    .from(galleryPhotos);
   await getDb()
     .insert(galleryPhotos)
     .values({
       ...storedImage.image,
       alt: getAltTextFromFileName(file.name),
       category,
-      position: (lastPosition ?? 0) + 1,
+      position: getNextPositionSql(galleryPhotos, galleryPhotos.position),
     });
-  updateTag("gallery-photos");
-  refresh();
+  // Marks the public gallery stale without re-rendering this page for every file in a
+  // batch; the upload form refreshes the page once at the end.
+  revalidateTag("gallery-photos", "max");
   return { errorMessage: null };
 };
 

@@ -10,8 +10,10 @@ import CopyLinkButton from "@/components/admin/copy-link-button";
 import MultiFileUploadForm from "@/components/admin/multi-file-upload-form";
 import ResumeToggleButton from "@/components/admin/resume-toggle-button";
 import getAdminFiles from "@/db/admin/get-admin-files";
-import getAdminProjects from "@/db/admin/get-admin-projects";
-import type { Project } from "@/db/tables/projects";
+import getAdminProjectBodies, {
+  type AdminProjectBody,
+} from "@/db/admin/get-admin-project-bodies";
+import adminCardClassName from "@/lib/admin-card-class-name";
 
 const bytesPerKilobyte = 1024;
 
@@ -36,7 +38,7 @@ const formatUploadDate = (uploadedAt: Date): string =>
 
 // Projects whose body links to the file, so deleting it warns about broken links.
 const getLinkingProjectTitles = (
-  projects: Project[],
+  projects: AdminProjectBody[],
   fileUrl: string,
 ): string[] =>
   projects
@@ -46,7 +48,7 @@ const getLinkingProjectTitles = (
 const AdminFilesContent: FC = async () => {
   const [files, projects] = await Promise.all([
     getAdminFiles(),
-    getAdminProjects(),
+    getAdminProjectBodies(),
   ]);
 
   return (
@@ -70,14 +72,14 @@ const AdminFilesContent: FC = async () => {
           return (
             <li
               key={file.id}
-              className="overflow-hidden rounded-lg border border-admin-dark/10 bg-white/50 dark:border-admin-light/10 dark:bg-admin-light/5"
+              className={`${adminCardClassName} overflow-hidden`}
             >
               {/* A page-shaped box; previews of shorter pages show their top. */}
               <a
                 href={file.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative block aspect-[8.5/11] border-b border-admin-dark/10 bg-white dark:border-admin-light/10"
+                className="relative block aspect-8.5/11 border-b border-admin-dark/10 bg-white dark:border-admin-light/10"
               >
                 <Image
                   src={file.thumbnailUrl}

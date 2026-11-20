@@ -1,7 +1,6 @@
 "use server";
 
 import { put } from "@vercel/blob";
-import { refresh } from "next/cache";
 import type { UploadOneResult } from "@/components/admin/multi-file-upload-form";
 import getDb from "@/db/client";
 import files from "@/db/tables/files";
@@ -55,7 +54,7 @@ const uploadFile = async (formData: FormData): Promise<UploadOneResult> => {
     contentType: checkedFile.contentType,
     sizeInBytes: file.size,
   });
-  refresh();
+  // No refresh here: the upload form refreshes the page once after the whole batch.
   return { errorMessage: null };
 };
 

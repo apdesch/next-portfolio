@@ -1,17 +1,17 @@
 "use client";
 
-import Link from "next/link";
 import {
   type FC,
-  type FormEvent,
+  type SubmitEvent,
   startTransition,
   useActionState,
 } from "react";
-import ButtonLabel from "@/components/admin/button-label";
 import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
 import FormField from "@/components/admin/form-field";
+import FormFooter from "@/components/admin/form-footer";
 import ImagePickerField from "@/components/admin/image-picker-field";
 import type { Project } from "@/db/tables/projects";
+import adminCardClassName from "@/lib/admin-card-class-name";
 import adminInputClassName from "@/lib/admin-input-class-name";
 import checkImageFile from "@/lib/check-image-file";
 import getUploadedFile from "@/lib/get-uploaded-file";
@@ -80,7 +80,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
   // runs (and selects snap back to their first value). This keeps every field as typed.
   // A wrong or oversized image is stopped here: the server would reject the whole request.
   // The image picker already shows why a chosen image can't be used.
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const imageFile = getUploadedFile(formData, "image");
@@ -100,7 +100,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
   });
 
   return (
-    <div className="rounded-lg border border-admin-dark/10 bg-white/50 dark:border-admin-light/10 dark:bg-admin-light/5">
+    <div className={adminCardClassName}>
       <form
         id="project-form"
         onSubmit={handleSubmit}
@@ -223,39 +223,24 @@ const ProjectForm: FC<ProjectFormProps> = ({
           <input type="url" {...getControlProps("url")} />
         </FormField>
       </form>
-      {/* Outside the form, so the delete confirmation's own form isn't nested in it. */}
-      <div className="flex items-center gap-3 border-t border-admin-dark/10 px-6 py-4 dark:border-admin-light/10">
-        {deleteProject && (
-          <ConfirmDeleteButton
-            popoverId="delete-project"
-            title="Delete this project?"
-            confirmDelete={deleteProject}
-          >
-            It can&rsquo;t be undone.
-          </ConfirmDeleteButton>
-        )}
-        <p
-          role="status"
-          className="m-0 ml-auto text-sm text-admin-dark/70 dark:text-admin-light/70"
-        >
-          {state.isSaved && !isPending && "Saved"}
-          {hasErrors && !isPending && "Check the highlighted fields."}
-        </p>
-        <Link
-          href="/admin/projects"
-          className="rounded-md px-4 py-2 text-sm hover:bg-admin-dark/5 dark:hover:bg-admin-light/10"
-        >
-          Cancel
-        </Link>
-        <button
-          type="submit"
-          form="project-form"
-          disabled={isPending}
-          className="rounded-md bg-admin-accent px-4 py-2 text-sm font-medium text-white enabled:hover:bg-admin-accent/90 disabled:opacity-60 dark:bg-admin-accent-dark dark:text-admin-dark dark:enabled:hover:bg-admin-accent-dark/90"
-        >
-          <ButtonLabel isBusy={isPending} label="Save" busyLabel="Saving…" />
-        </button>
-      </div>
+      <FormFooter
+        formId="project-form"
+        cancelHref="/admin/projects"
+        isPending={isPending}
+        isSaved={state.isSaved}
+        hasErrors={hasErrors}
+        deleteButton={
+          deleteProject && (
+            <ConfirmDeleteButton
+              popoverId="delete-project"
+              title="Delete this project?"
+              confirmDelete={deleteProject}
+            >
+              It can&rsquo;t be undone.
+            </ConfirmDeleteButton>
+          )
+        }
+      />
     </div>
   );
 };
