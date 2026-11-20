@@ -21,12 +21,23 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
   - Merges to `main` deploy to production; every pull request gets a preview URL.
   - GitHub Actions runs CI (lint, typecheck, tests, build) on every PR; Vercel handles deploys.
   - Environment variables and secrets live in Vercel project settings, never in the repo.
+- Node 24 (`engines` in `package.json` overrides the project setting). Builds run
+  `vercel-build`: `drizzle-kit migrate && next build`, so each deploy migrates its own database.
 - Database: Neon Postgres (`next-portfolio-db`) through the Vercel Marketplace, connected to the
   Vercel project `next-portfolio`. `vercel env pull .env.local` fetches the local variables.
-  - For now, Production, Preview and Development share one database (placeholder data only).
-  - Before importing real content from the Droplet or going live, whichever comes first, create
-    a Neon `development` branch and point the Development `DATABASE_URL` at it. Remind me.
-  - Neon Auth is not used (it should be turned off). Auth is Better Auth (stage 3).
+  - Production uses the Neon `main` branch.
+  - Each preview gets its own `preview/<git-branch>` copy from the integration.
+  - Development (`.env.local`) uses the `development` branch, set by hand because the
+    integration doesn't manage Development.
+  - CI uses the `ci` branch through the GitHub secrets `CI_DATABASE_URL` and
+    `CI_DATABASE_URL_UNPOOLED`.
+  - Neon Auth is not used (it should be turned off). Auth is Better Auth.
+- Files: Vercel Blob. Production uses `next-portfolio-blob`; Preview and Development use
+  `next-portfolio-blob-dev`. Deletes only touch the deployment's own store
+  (`src/lib/is-own-stored-file.ts`).
+- Sign-in: each environment has its own `BETTER_AUTH_SECRET`. Only Development sets
+  `BETTER_AUTH_URL`; Production and Preview take their address from Vercel's variables
+  (`src/lib/get-auth-origins.ts`).
 - Current state: apdesch.com points to a DigitalOcean Droplet running the old MERN portfolio.
   Keep it live until the new site is fully working on Vercel.
 - Migration plan (do not start until I ask):
