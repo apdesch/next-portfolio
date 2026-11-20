@@ -21,12 +21,23 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
   - Merges to `main` deploy to production; every pull request gets a preview URL.
   - GitHub Actions runs CI (lint, typecheck, tests, build) on every PR; Vercel handles deploys.
   - Environment variables and secrets live in Vercel project settings, never in the repo.
+- Node 24 (`engines` in `package.json` overrides the project setting). Builds run
+  `vercel-build`: `drizzle-kit migrate && next build`, so each deploy migrates its own database.
 - Database: Neon Postgres (`next-portfolio-db`) through the Vercel Marketplace, connected to the
   Vercel project `next-portfolio`. `vercel env pull .env.local` fetches the local variables.
-  - For now, Production, Preview and Development share one database (placeholder data only).
-  - Before importing real content from the Droplet or going live, whichever comes first, create
-    a Neon `development` branch and point the Development `DATABASE_URL` at it. Remind me.
-  - Neon Auth is not used (it should be turned off). Auth is Better Auth (stage 3).
+  - Production uses the Neon `main` branch.
+  - Each preview gets its own `preview/<git-branch>` copy from the integration.
+  - Development (`.env.local`) uses the `development` branch, set by hand because the
+    integration doesn't manage Development.
+  - CI uses the `ci` branch through the GitHub secrets `CI_DATABASE_URL` and
+    `CI_DATABASE_URL_UNPOOLED`.
+  - Neon Auth is not used (it should be turned off). Auth is Better Auth.
+- Files: Vercel Blob. Production uses `next-portfolio-blob`; Preview and Development use
+  `next-portfolio-blob-dev`. Deletes only touch the deployment's own store
+  (`src/lib/is-own-stored-file.ts`).
+- Sign-in: each environment has its own `BETTER_AUTH_SECRET`. Only Development sets
+  `BETTER_AUTH_URL`; Production and Preview take their address from Vercel's variables
+  (`src/lib/get-auth-origins.ts`).
 - Current state: apdesch.com points to a DigitalOcean Droplet running the old MERN portfolio.
   Keep it live until the new site is fully working on Vercel.
 - Migration plan (do not start until I ask):
@@ -69,6 +80,9 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Functional style. No classes. Prefer pure functions that take input and return output.
 - No mutation: use `const`, spread, `map`, `filter`, `reduce`. Never `let` unless unavoidable.
 - Keep side effects (database, network, file I/O) in clearly named modules; keep everything else pure.
+- Admin pages read data only through functions in `src/db/admin/`, and every admin Server
+  Action that changes data calls `requireAdminSession()` first. Both check the session
+  themselves, because a layout's check can't stop a page's data from being sent.
 - Descriptive names everywhere. No single letters or abbreviations, including callbacks:
   `projects.map((project) => ...)`, not `projects.map((p) => ...)`.
 - Function names start with a verb and say what they return or do:
@@ -86,8 +100,8 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Every module ends with one `export default name;`, never `export default` on the declaration
   and never `export const`. Named exports are allowed only for TypeScript types and for the
   exports Next.js requires in `src/app/` (`metadata`, `generateMetadata`, `viewport`,
-  `generateViewport`, `generateStaticParams`, and `alt`, `size`, `contentType` in
-  `opengraph-image.tsx`).
+  `generateViewport`, `generateStaticParams`, `alt`, `size`, `contentType` in
+  `opengraph-image.tsx`, and `GET`, `POST` in `route.ts`). A `route.ts` has no default export.
 - ESLint enforces the three rules above.
 
 ## No bloat (required)
@@ -107,7 +121,7 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - Feature work (pages, API, auth, admin) happens on a new branch, not on the setup branch.
 - Keep work local (no push, no PR) until I've seen it running on my machine and say otherwise.
 - Never commit without my approval. Show me the diff and proposed message, then wait for my OK.
-- After changes, run `pnpm lint`, `pnpm typecheck` and `pnpm build` (and tests once they exist),
+- After changes, run `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm build`,
   then summarize what changed in plain language.
 - If you are unsure about a requirement, ask instead of guessing.
 
@@ -117,8 +131,13 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
 - `pnpm build` — production build
 - `pnpm lint` — ESLint
 - `pnpm typecheck` — `next typegen && tsc --noEmit`
+- `pnpm test` — Vitest unit tests (files ending in `.test.ts`)
 - `pnpm knip` — find unused files, exports and dependencies
 - `pnpm format` / `pnpm format:check` — Prettier (write / verify)
 - `pnpm db:generate --name <change>` — generate a SQL migration from the tables in `src/db/tables/`
 - `pnpm db:migrate` — apply pending migrations to the database in `.env.local` (review the SQL first)
 - `pnpm db:seed` — fill empty tables with placeholder content (tables with rows are skipped)
+- `pnpm admin:create` — create the single admin account (prompts for email and password;
+  run it yourself in your own terminal, never with a password in the command)
+- `pnpm admin:reset-password` — set a new admin password and sign out every browser (same
+  prompts and rules as `admin:create`; there are no "forgot password" emails)

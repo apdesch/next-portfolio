@@ -1,7 +1,9 @@
+import { existsSync } from "node:fs";
 import { defineConfig } from "drizzle-kit";
 
-// drizzle-kit runs outside Next.js, so it doesn't load .env.local on its own.
-process.loadEnvFile(".env.local");
+// drizzle-kit runs outside Next.js, so it doesn't load .env.local on its own. On Vercel
+// there's no such file: the variables come from the project settings.
+if (existsSync(".env.local")) process.loadEnvFile(".env.local");
 
 // Neon recommends the direct (unpooled) connection for migrations.
 const databaseUrl = process.env.DATABASE_URL_UNPOOLED;

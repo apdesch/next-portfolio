@@ -68,6 +68,7 @@ All colors come from one hue (20) and a single amber accent.
   - A two-column grid with the image and text side by side, bottom-aligned with a `1em` gap.
   - `direction: rtl` puts the image on the right; the text sections reset to left-to-right.
   - Skills are inline uppercase "chips" at `0.9em`: inverted colors (text color as background), 2px radius.
+  - The project body sits on the next row, under the image and in its column (not across both).
 - **Videos:** responsive 16:9 YouTube embeds (`youtube-nocookie.com`), each with a caption below, right-aligned at `1.1em`.
 - **Photo galleries:** grouped by category, a justified row layout (target row height 150px), and a click-to-open lightbox with fullscreen, slideshow and zoom.
 - **About** (redesigned November 2026):
@@ -168,3 +169,33 @@ All home page content lives in Neon Postgres. Each table is defined in its own m
 ## Planned: uploads (stage 3)
 
 - **Downloadable resume PDF:** visitors can download the latest resume directly. It's uploaded through the admin area (stage 3), like the old site's uploads, which accepted images, videos and PDFs and generated a thumbnail for each PDF.
+- **Files page:** an admin library of uploaded documents, limited to PDF and plain text (`.txt`, `.md`), with no office documents. Each file gets a link to paste into a project body, such as a white paper related to a project. Resume PDFs live here too.
+
+## Resume PDF
+
+- One PDF on the admin Files page can be marked as the resume (the database allows only one).
+- `apdesch.com/resume.pdf` always serves the current one, opening in the browser's PDF viewer as `Adam-Deschamp-Resume.pdf`, so the link can be shared once and never goes stale.
+- The Resume page links to it twice, both opening in a new tab and only when a resume is marked:
+  - "View PDF" on the title's line, right-aligned: a small square-cornered button at body text size with light uppercase text and no shadow (public buttons never have drop shadows). Light mode: solid `primary-dark`. Dark mode: frosted glass like the content cards (`primary-dark` at 50%, 40px blur).
+  - "View this resume as a PDF" at the end of the resume, in the uppercase `1.2em` link style of the 404 page.
+
+## Admin design (stage 3)
+
+Chosen from three runnable mockups in November 2026 (option A, "Cards").
+
+- **Principle:** like WordPress, the admin is deliberately separate from the public design, so a public redesign leaves it unchanged.
+  - It has its own color tokens, which start from the public palette but are defined separately.
+  - It uses the system font, not Poppins.
+  - The public typography in `globals.css` is scoped to `.public-site`, so it never reaches the admin.
+- **Frame:**
+  - A light header bar with "apdesch Admin" on the left, and "View site" plus the profile menu on the right.
+  - A sidebar listing Projects, Videos, Gallery and Files. The current section has an amber-tinted, rounded highlight.
+  - On phones, the sidebar opens as a drawer from a menu button in the header.
+- **Profile menu:** a colored circle with the initial "A" (no avatar photos). It opens a menu with the name and "Sign out".
+- **Projects:** a grid of cards with thumbnails, category and date, and a "New project" button.
+- **Edit form:** a two-column form inside a card. Plain Tailwind fields, Delete on the left, Cancel and Save on the right.
+- **Sign in:** the header bar above a plain centered form, with no surrounding card.
+- **Behavior:**
+  - No animations.
+  - Dark mode follows the system setting.
+  - Menus use the browser's Popover API, which works without JavaScript.

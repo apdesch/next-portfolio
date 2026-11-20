@@ -8,30 +8,8 @@ import VideoEmbed from "@/components/video-embed";
 import getGalleryPhotos from "@/db/get-gallery-photos";
 import getProjects from "@/db/get-projects";
 import getVideos from "@/db/get-videos";
-import type { GalleryPhoto } from "@/db/tables/gallery-photos";
+import groupPhotosByCategory from "@/lib/group-photos-by-category";
 import getPageMetadata from "@/lib/page-metadata";
-
-type Gallery = {
-  category: string;
-  photos: GalleryPhoto[];
-};
-
-// Photos arrive ordered by position, so galleries appear in the order of their first
-// photo and each gallery keeps its photos in order.
-const groupPhotosByCategory = (photos: readonly GalleryPhoto[]): Gallery[] =>
-  photos.reduce<Gallery[]>((galleries, photo) => {
-    const hasGallery = galleries.some(
-      (gallery) => gallery.category === photo.category,
-    );
-    if (!hasGallery) {
-      return [...galleries, { category: photo.category, photos: [photo] }];
-    }
-    return galleries.map((gallery) =>
-      gallery.category === photo.category
-        ? { ...gallery, photos: [...gallery.photos, photo] }
-        : gallery,
-    );
-  }, []);
 
 // Async Server Component: it awaits the cached queries before rendering.
 const Home: FC = async () => {

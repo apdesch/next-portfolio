@@ -1,4 +1,9 @@
 minimumReleaseAge: 1440
+overrides:
+  # @vercel/cli-config (inside @vercel/blob) pins zod 4.1.11, which has a memory-exhaustion
+  # advisory (GHSA-mrhx-c7xc-m3w5). 4.6.x is the same major version, so its API is unchanged.
+  # Remove this once @vercel/blob ships a patched zod.
+  "@vercel/cli-config>zod": "^4.6.7"
 allowBuilds:
   # drizzle-kit's esbuild works without its install script (binary ships as a package).
   esbuild: false

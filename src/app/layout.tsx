@@ -19,15 +19,7 @@ export const metadata: Metadata = {
 
 const RootLayout: FC<LayoutProps<"/">> = ({ children }) => (
   <html lang="en" className={`${poppins.variable} antialiased`}>
-    <body className="font-sans">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10 hidden dark-backdrop dark:block"
-      />
-      <div className="flex min-h-screen w-full animate-fade-in flex-col items-center justify-around px-[1em] text-compact desktop:px-0 desktop:text-fluid">
-        {children}
-      </div>
-    </body>
+    <body>{children}</body>
   </html>
 );
 

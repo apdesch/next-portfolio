@@ -1,0 +1,2 @@
+ALTER TABLE "files" ADD COLUMN "is_resume" boolean DEFAULT false NOT NULL;--> statement-breakpoint
+CREATE UNIQUE INDEX "files_only_one_resume" ON "files" USING btree ("is_resume") WHERE "files"."is_resume";
