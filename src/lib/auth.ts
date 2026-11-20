@@ -4,11 +4,14 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import authTables from "@/db/auth-tables";
 import getDb from "@/db/client";
+import getAuthOrigins from "@/lib/get-auth-origins";
 
 const oneHourInSeconds = 60 * 60;
 
-// Reads BETTER_AUTH_SECRET (signs session cookies) and BETTER_AUTH_URL from the environment.
+// Reads BETTER_AUTH_SECRET (signs session cookies) from the environment. The address comes
+// from BETTER_AUTH_URL locally and from Vercel's own variables on deployments.
 const auth = betterAuth({
+  ...getAuthOrigins(process.env),
   database: drizzleAdapter(getDb(), {
     provider: "pg",
     schema: authTables,
