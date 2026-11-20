@@ -16,7 +16,9 @@ const createThumbnailOrNull = async (
 ): Promise<Buffer | null> => {
   try {
     return await createFileThumbnail(kind, bytes);
-  } catch {
+  } catch (error) {
+    // The form only says the PDF couldn't be read; the server log keeps the real cause.
+    console.error("Couldn't make a file thumbnail:", error);
     return null;
   }
 };

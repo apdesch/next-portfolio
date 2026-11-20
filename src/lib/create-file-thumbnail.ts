@@ -32,6 +32,10 @@ const saveThumbnail = async (pngBytes: Buffer): Promise<Buffer> =>
 // PDF.js takes about 0.7 s to load, so it's imported only when a PDF thumbnail is made,
 // not whenever the Files page or a text upload loads this module.
 const createPdfThumbnail = async (pdfBytes: Uint8Array): Promise<Buffer> => {
+  // Loading the worker first makes PDF.js use it (through globalThis.pdfjsWorker) instead
+  // of importing it from a computed path at runtime. Next.js's file tracing can't follow
+  // that path, so on Vercel the worker file was left out of the bundle and every PDF failed.
+  await import("pdfjs-dist/legacy/build/pdf.worker.mjs");
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const loadingTask = getDocument({
     // A copy: PDF.js may take over (and empty) the array it's given, and the caller
