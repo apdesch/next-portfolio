@@ -13,8 +13,13 @@ const getResumePdf = async (): Promise<Uint8Array<ArrayBuffer> | null> => {
   const resumeFile = await getResumeFile();
   if (!resumeFile) return null;
   const storedResume = await fetch(resumeFile.url);
+  // A missing file mustn't fail the build (and so every deploy); /resume.pdf says there's
+  // no resume until the admin marks one again, which refreshes this cache.
   if (!storedResume.ok) {
-    throw new Error(`The resume couldn't be loaded (${storedResume.status}).`);
+    console.error(
+      `The resume at ${resumeFile.url} couldn't be loaded (${storedResume.status}).`,
+    );
+    return null;
   }
   return new Uint8Array(await storedResume.arrayBuffer());
 };
