@@ -140,7 +140,7 @@ There are also `wipeRight` and `slightZoomOut` keyframes, but nothing uses them.
 - **Robots (`src/app/robots.ts`):** all crawlers allowed, except AI training crawlers (GPTBot, ClaudeBot, anthropic-ai, Google-Extended, Applebot-Extended, CCBot, Bytespider, meta-externalagent). AI search crawlers (OAI-SearchBot, PerplexityBot) stay allowed, so the site can appear in AI search answers. robots.txt is honored by reputable crawlers but not enforced; Vercel Firewall bot rules can enforce it later.
 - **Old `noai` / `noimageai` meta tags:** dropped. They're non-standard, and robots.txt replaces them.
 - **Sitemap (`src/app/sitemap.ts`):** `/`, `/resume`, `/about`.
-- **Page metadata:** every page builds its title, description, canonical URL and Open Graph tags with `getPageMetadata` (`src/lib/page-metadata.ts`). Next merges metadata shallowly, so pages can't inherit Open Graph fields.
+- **Page metadata:** every page builds its title, description, canonical URL and Open Graph tags with `getPageMetadata` (`src/lib/getPageMetadata.ts`). Next merges metadata shallowly, so pages can't inherit Open Graph fields.
 - **Share image (`src/app/opengraph-image.tsx`):** 1200×630. It shows the dark mode photo under the overlay, with "apdesch" in Poppins (tilted, chromatic shadow) and "Adam Deschamp · Software Engineer".
   - It uses a 1200×675 copy of the photo (`src/assets/share-background.jpg`) to stay under `ImageResponse`'s 500KB limit.
   - The image renderer (Satori) can't use Tailwind classes or CSS variables, so its colors are inline copies of the `globals.css` tokens.

@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
-import PageContent from "@/components/page-content";
-import PersonStructuredData from "@/components/person-structured-data";
-import PhotoGallery from "@/components/photo-gallery";
-import ProjectEntry from "@/components/project-entry";
-import VideoEmbed from "@/components/video-embed";
-import getGalleryPhotos from "@/db/get-gallery-photos";
-import getProjects from "@/db/get-projects";
-import getVideos from "@/db/get-videos";
-import groupPhotosByCategory from "@/lib/group-photos-by-category";
-import getPageMetadata from "@/lib/page-metadata";
+import PageContent from "@/components/PageContent";
+import PersonStructuredData from "@/components/PersonStructuredData";
+import PhotoGallery from "@/components/PhotoGallery";
+import ProjectEntry from "@/components/ProjectEntry";
+import VideoEmbed from "@/components/VideoEmbed";
+import getGalleryPhotos from "@/db/getGalleryPhotos";
+import getProjects from "@/db/getProjects";
+import getVideos from "@/db/getVideos";
+import groupPhotosByCategory from "@/lib/groupPhotosByCategory";
+import getPageMetadata from "@/lib/getPageMetadata";
 
 // Async Server Component: it awaits the cached queries before rendering.
 const Home: FC = async () => {

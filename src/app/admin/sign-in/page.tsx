@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
-import AdminWordmark from "@/components/admin/admin-wordmark";
-import SignInForm from "@/components/admin/sign-in-form";
+import AdminWordmark from "@/components/admin/AdminWordmark";
+import SignInForm from "@/components/admin/SignInForm";
 
 const SignInPage: FC = () => (
   <div className="grid min-h-dvh grid-rows-[auto_1fr]">

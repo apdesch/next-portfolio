@@ -1,6 +1,6 @@
 import { date, integer, pgTable, text } from "drizzle-orm/pg-core";
 // Relative imports with extensions so the seed script can load these files in plain Node.
-import projectCategory from "./project-category.ts";
+import projectCategory from "./projectCategory.ts";
 import timestamps from "./timestamps.ts";
 
 // Column names are written in camelCase here; `casing: "snake_case"` in the Drizzle

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { FC } from "react";
-import PublicFrame from "@/components/public-frame";
-import SiteTitle from "@/components/site-title";
+import PublicFrame from "@/components/PublicFrame";
+import SiteTitle from "@/components/SiteTitle";
 
 const NotFound: FC = () => (
   <PublicFrame>

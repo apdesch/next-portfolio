@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
-import ContentCard from "@/components/content-card";
-import PageContent from "@/components/page-content";
-import ResumePdfLink from "@/components/resume-pdf-link";
+import ContentCard from "@/components/ContentCard";
+import PageContent from "@/components/PageContent";
+import ResumePdfLink from "@/components/ResumePdfLink";
 import resume, { type ResumeEntry, type YearMonth } from "@/content/resume";
-import getPageMetadata from "@/lib/page-metadata";
+import getPageMetadata from "@/lib/getPageMetadata";
 
 const monthYearFormat = new Intl.DateTimeFormat("en-US", {
   month: "short",

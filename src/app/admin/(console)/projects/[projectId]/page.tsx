@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type FC, Suspense } from "react";
-import AdminPageLoading from "@/components/admin/admin-page-loading";
-import deleteProject from "@/app/admin/(console)/projects/delete-project";
-import updateProject from "@/app/admin/(console)/projects/update-project";
-import ProjectForm from "@/components/admin/project-form";
-import getAdminProject from "@/db/admin/get-admin-project";
+import AdminPageLoading from "@/components/admin/AdminPageLoading";
+import deleteProject from "@/app/admin/(console)/projects/deleteProject";
+import updateProject from "@/app/admin/(console)/projects/updateProject";
+import ProjectForm from "@/components/admin/ProjectForm";
+import getAdminProject from "@/db/admin/getAdminProject";
 
 const EditProjectContent: FC<
   PageProps<"/admin/projects/[projectId]">
@@ -34,7 +34,7 @@ const EditProjectContent: FC<
 };
 
 // Its own Suspense boundary, so opening this page from anywhere in the admin shows the
-// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+// placeholder at once instead of waiting for its data (see AdminPageLoading.tsx).
 const EditProjectPage: FC<PageProps<"/admin/projects/[projectId]">> = (
   props,
 ) => (
