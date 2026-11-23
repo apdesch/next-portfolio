@@ -1,12 +1,10 @@
 import { describe, expect, it } from "vitest";
 import getFailedFormState from "@/lib/getFailedFormState";
 
-type TestErrors = { title?: string; image?: string };
-
 describe("getFailedFormState", () => {
   it("combines the text fields' errors with the image's", () => {
     expect(
-      getFailedFormState<TestErrors>(
+      getFailedFormState(
         { isValid: false, fieldErrors: { title: "Enter a title." } },
         "Choose an image.",
       ),
@@ -17,14 +15,15 @@ describe("getFailedFormState", () => {
   });
 
   it("reports only the image when the text fields are valid", () => {
-    expect(
-      getFailedFormState<TestErrors>({ isValid: true }, "Choose an image."),
-    ).toEqual({ fieldErrors: { image: "Choose an image." }, isSaved: false });
+    expect(getFailedFormState({ isValid: true }, "Choose an image.")).toEqual({
+      fieldErrors: { image: "Choose an image." },
+      isSaved: false,
+    });
   });
 
   it("reports only the text fields when the image is fine", () => {
     expect(
-      getFailedFormState<TestErrors>(
+      getFailedFormState(
         { isValid: false, fieldErrors: { title: "Enter a title." } },
         null,
       ),
