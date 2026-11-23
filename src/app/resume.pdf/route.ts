@@ -1,4 +1,4 @@
-import getResumePdf from "@/db/get-resume-pdf";
+import getResumePdf from "@/db/getResumePdf";
 
 // apdesch.com/resume.pdf always serves the current resume, so the link never goes stale
 // when a new version is uploaded. It opens in the browser's PDF viewer under a readable

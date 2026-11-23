@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
 import { Poppins } from "next/font/google";
-import siteUrl from "@/lib/site-url";
+import siteUrl from "@/lib/siteUrl";
 import "./globals.css";
 
 const poppins = Poppins({

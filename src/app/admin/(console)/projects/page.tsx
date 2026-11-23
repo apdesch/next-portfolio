@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { type FC, Suspense } from "react";
-import AdminPageLoading from "@/components/admin/admin-page-loading";
-import getAdminProjects from "@/db/admin/get-admin-projects";
-import adminButtonClassName from "@/lib/admin-button-class-name";
-import adminCardClassName from "@/lib/admin-card-class-name";
-import projectCategoryLabels from "@/lib/project-category-labels";
+import AdminPageLoading from "@/components/admin/AdminPageLoading";
+import getAdminProjects from "@/db/admin/getAdminProjects";
+import adminButtonClassName from "@/lib/adminButtonClassName";
+import adminCardClassName from "@/lib/adminCardClassName";
+import projectCategoryLabels from "@/lib/projectCategoryLabels";
 
 // Dates are stored as YYYY-MM-DD; UTC keeps the month from shifting in other time zones.
 const formatProjectDate = (date: string): string =>
@@ -61,7 +61,7 @@ const AdminProjectsContent: FC = async () => {
 };
 
 // Its own Suspense boundary, so opening this page from anywhere in the admin shows the
-// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+// placeholder at once instead of waiting for its data (see AdminPageLoading.tsx).
 const AdminProjectsPage: FC = () => (
   <Suspense fallback={<AdminPageLoading />}>
     <AdminProjectsContent />

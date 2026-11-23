@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    // Vercel caps a request at 4.5 MB; uploads stop at 4 MB (see maximum-upload-bytes.ts).
+    // Vercel caps a request at 4.5 MB; uploads stop at 4 MB (see maximumUploadBytes.ts).
     serverActions: { bodySizeLimit: "4.5mb" },
   },
   turbopack: {

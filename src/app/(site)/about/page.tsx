@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import type { FC } from "react";
 import portrait from "@/assets/portrait.jpg";
-import ContentCard from "@/components/content-card";
-import PageContent from "@/components/page-content";
-import SkillChips from "@/components/skill-chips";
-import getPageMetadata from "@/lib/page-metadata";
+import ContentCard from "@/components/ContentCard";
+import PageContent from "@/components/PageContent";
+import SkillChips from "@/components/SkillChips";
+import getPageMetadata from "@/lib/getPageMetadata";
 import about from "@/content/about";
 
 const SkillGroups: FC = () => (

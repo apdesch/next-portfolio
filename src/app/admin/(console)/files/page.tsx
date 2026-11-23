@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { type FC, Suspense } from "react";
-import AdminPageLoading from "@/components/admin/admin-page-loading";
-import deleteFile from "@/app/admin/(console)/files/delete-file";
-import setResumeFile from "@/app/admin/(console)/files/set-resume-file";
-import uploadFile from "@/app/admin/(console)/files/upload-file";
-import ConfirmDeleteButton from "@/components/admin/confirm-delete-button";
-import CopyLinkButton from "@/components/admin/copy-link-button";
-import MultiFileUploadForm from "@/components/admin/multi-file-upload-form";
-import ResumeToggleButton from "@/components/admin/resume-toggle-button";
-import getAdminFiles from "@/db/admin/get-admin-files";
+import AdminPageLoading from "@/components/admin/AdminPageLoading";
+import deleteFile from "@/app/admin/(console)/files/deleteFile";
+import setResumeFile from "@/app/admin/(console)/files/setResumeFile";
+import uploadFile from "@/app/admin/(console)/files/uploadFile";
+import ConfirmDeleteButton from "@/components/admin/ConfirmDeleteButton";
+import CopyLinkButton from "@/components/admin/CopyLinkButton";
+import MultiFileUploadForm from "@/components/admin/MultiFileUploadForm";
+import ResumeToggleButton from "@/components/admin/ResumeToggleButton";
+import getAdminFiles from "@/db/admin/getAdminFiles";
 import getAdminProjectBodies, {
   type AdminProjectBody,
-} from "@/db/admin/get-admin-project-bodies";
-import adminCardClassName from "@/lib/admin-card-class-name";
+} from "@/db/admin/getAdminProjectBodies";
+import adminCardClassName from "@/lib/adminCardClassName";
 
 const bytesPerKilobyte = 1024;
 
@@ -153,7 +153,7 @@ const AdminFilesContent: FC = async () => {
 };
 
 // Its own Suspense boundary, so opening this page from anywhere in the admin shows the
-// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+// placeholder at once instead of waiting for its data (see AdminPageLoading.tsx).
 const AdminFilesPage: FC = () => (
   <Suspense fallback={<AdminPageLoading />}>
     <AdminFilesContent />

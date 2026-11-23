@@ -2,9 +2,9 @@ import "server-only";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import authTables from "@/db/auth-tables";
-import getDb from "@/db/client";
-import getAuthOrigins from "@/lib/get-auth-origins";
+import authTables from "@/db/authTables";
+import getDb from "@/db/getDb";
+import getAuthOrigins from "@/lib/getAuthOrigins";
 
 const oneHourInSeconds = 60 * 60;
 

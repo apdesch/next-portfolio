@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { type FC, Suspense } from "react";
-import AdminPageLoading from "@/components/admin/admin-page-loading";
-import deleteGalleryPhoto from "@/app/admin/(console)/gallery/delete-gallery-photo";
-import moveGalleryPhoto from "@/app/admin/(console)/gallery/move-gallery-photo";
-import uploadGalleryPhoto from "@/app/admin/(console)/gallery/upload-gallery-photo";
-import GalleryCategoryField from "@/components/admin/gallery-category-field";
-import GalleryPhotoGrid from "@/components/admin/gallery-photo-grid";
-import MultiFileUploadForm from "@/components/admin/multi-file-upload-form";
-import getAdminGalleryPhotos from "@/db/admin/get-admin-gallery-photos";
-import groupPhotosByCategory from "@/lib/group-photos-by-category";
+import AdminPageLoading from "@/components/admin/AdminPageLoading";
+import deleteGalleryPhoto from "@/app/admin/(console)/gallery/deleteGalleryPhoto";
+import moveGalleryPhoto from "@/app/admin/(console)/gallery/moveGalleryPhoto";
+import uploadGalleryPhoto from "@/app/admin/(console)/gallery/uploadGalleryPhoto";
+import GalleryCategoryField from "@/components/admin/GalleryCategoryField";
+import GalleryPhotoGrid from "@/components/admin/GalleryPhotoGrid";
+import MultiFileUploadForm from "@/components/admin/MultiFileUploadForm";
+import getAdminGalleryPhotos from "@/db/admin/getAdminGalleryPhotos";
+import groupPhotosByCategory from "@/lib/groupPhotosByCategory";
 
 const AdminGalleryContent: FC = async () => {
   const photos = await getAdminGalleryPhotos();
@@ -52,7 +52,7 @@ const AdminGalleryContent: FC = async () => {
 };
 
 // Its own Suspense boundary, so opening this page from anywhere in the admin shows the
-// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+// placeholder at once instead of waiting for its data (see AdminPageLoading.tsx).
 const AdminGalleryPage: FC = () => (
   <Suspense fallback={<AdminPageLoading />}>
     <AdminGalleryContent />

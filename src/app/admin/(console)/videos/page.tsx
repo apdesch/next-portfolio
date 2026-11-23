@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { type FC, Suspense } from "react";
-import AdminPageLoading from "@/components/admin/admin-page-loading";
-import moveVideo from "@/app/admin/(console)/videos/move-video";
-import VideoList from "@/components/admin/video-list";
-import getAdminVideos from "@/db/admin/get-admin-videos";
-import adminButtonClassName from "@/lib/admin-button-class-name";
+import AdminPageLoading from "@/components/admin/AdminPageLoading";
+import moveVideo from "@/app/admin/(console)/videos/moveVideo";
+import VideoList from "@/components/admin/VideoList";
+import getAdminVideos from "@/db/admin/getAdminVideos";
+import adminButtonClassName from "@/lib/adminButtonClassName";
 
 const AdminVideosContent: FC = async () => {
   const videos = await getAdminVideos();
@@ -29,7 +29,7 @@ const AdminVideosContent: FC = async () => {
 };
 
 // Its own Suspense boundary, so opening this page from anywhere in the admin shows the
-// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+// placeholder at once instead of waiting for its data (see AdminPageLoading.tsx).
 const AdminVideosPage: FC = () => (
   <Suspense fallback={<AdminPageLoading />}>
     <AdminVideosContent />

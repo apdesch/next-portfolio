@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { FC } from "react";
-import createVideo from "@/app/admin/(console)/videos/create-video";
-import VideoForm from "@/components/admin/video-form";
+import createVideo from "@/app/admin/(console)/videos/createVideo";
+import VideoForm from "@/components/admin/VideoForm";
 
 const NewVideoPage: FC = () => (
   <div className="mx-auto max-w-2xl p-6">

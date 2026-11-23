@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type FC, Suspense } from "react";
-import AdminPageLoading from "@/components/admin/admin-page-loading";
-import deleteVideo from "@/app/admin/(console)/videos/delete-video";
-import updateVideo from "@/app/admin/(console)/videos/update-video";
-import VideoForm from "@/components/admin/video-form";
-import getAdminVideo from "@/db/admin/get-admin-video";
+import AdminPageLoading from "@/components/admin/AdminPageLoading";
+import deleteVideo from "@/app/admin/(console)/videos/deleteVideo";
+import updateVideo from "@/app/admin/(console)/videos/updateVideo";
+import VideoForm from "@/components/admin/VideoForm";
+import getAdminVideo from "@/db/admin/getAdminVideo";
 
 const EditVideoContent: FC<PageProps<"/admin/videos/[videoId]">> = async ({
   params,
@@ -34,7 +34,7 @@ const EditVideoContent: FC<PageProps<"/admin/videos/[videoId]">> = async ({
 };
 
 // Its own Suspense boundary, so opening this page from anywhere in the admin shows the
-// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+// placeholder at once instead of waiting for its data (see AdminPageLoading.tsx).
 const EditVideoPage: FC<PageProps<"/admin/videos/[videoId]">> = (props) => (
   <Suspense fallback={<AdminPageLoading />}>
     <EditVideoContent {...props} />

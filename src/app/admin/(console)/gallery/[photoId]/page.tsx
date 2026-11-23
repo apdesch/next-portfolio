@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type FC, Suspense } from "react";
-import AdminPageLoading from "@/components/admin/admin-page-loading";
-import deleteGalleryPhoto from "@/app/admin/(console)/gallery/delete-gallery-photo";
-import updateGalleryPhoto from "@/app/admin/(console)/gallery/update-gallery-photo";
-import GalleryPhotoForm from "@/components/admin/gallery-photo-form";
-import getAdminGalleryCategories from "@/db/admin/get-admin-gallery-categories";
-import getAdminGalleryPhoto from "@/db/admin/get-admin-gallery-photo";
+import AdminPageLoading from "@/components/admin/AdminPageLoading";
+import deleteGalleryPhoto from "@/app/admin/(console)/gallery/deleteGalleryPhoto";
+import updateGalleryPhoto from "@/app/admin/(console)/gallery/updateGalleryPhoto";
+import GalleryPhotoForm from "@/components/admin/GalleryPhotoForm";
+import getAdminGalleryCategories from "@/db/admin/getAdminGalleryCategories";
+import getAdminGalleryPhoto from "@/db/admin/getAdminGalleryPhoto";
 
 const EditGalleryPhotoContent: FC<
   PageProps<"/admin/gallery/[photoId]">
@@ -39,7 +39,7 @@ const EditGalleryPhotoContent: FC<
 };
 
 // Its own Suspense boundary, so opening this page from anywhere in the admin shows the
-// placeholder at once instead of waiting for its data (see admin-page-loading.tsx).
+// placeholder at once instead of waiting for its data (see AdminPageLoading.tsx).
 const EditGalleryPhotoPage: FC<PageProps<"/admin/gallery/[photoId]">> = (
   props,
 ) => (

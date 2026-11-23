@@ -34,10 +34,10 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
   - Neon Auth is not used (it should be turned off). Auth is Better Auth.
 - Files: Vercel Blob. Production uses `next-portfolio-blob`; Preview and Development use
   `next-portfolio-blob-dev`. Deletes only touch the deployment's own store
-  (`src/lib/is-own-stored-file.ts`).
+  (`src/lib/isOwnStoredFile.ts`).
 - Sign-in: each environment has its own `BETTER_AUTH_SECRET`. Only Development sets
   `BETTER_AUTH_URL`; Production and Preview take their address from Vercel's variables
-  (`src/lib/get-auth-origins.ts`).
+  (`src/lib/getAuthOrigins.ts`).
 - Current state: apdesch.com points to a DigitalOcean Droplet running the old MERN portfolio.
   Keep it live until the new site is fully working on Vercel.
 - Migration plan (do not start until I ask):
@@ -103,6 +103,13 @@ copy and docs. Never shorten it to "Adam Desch" (the `apdesch` handle and domain
   `generateViewport`, `generateStaticParams`, `alt`, `size`, `contentType` in
   `opengraph-image.tsx`, and `GET`, `POST` in `route.ts`). A `route.ts` has no default export.
 - ESLint enforces the three rules above.
+- File names match the module's default export, as in the original portfolio: components in
+  PascalCase (`SiteHeader.tsx`), functions and values in camelCase (`getProjects.ts`,
+  `siteUrl.ts`). Tests take the module's name (`getProjects.test.ts`). Folders stay lowercase.
+  Exceptions: the file names Next.js looks for (`page.tsx`, `layout.tsx`, `route.ts`,
+  `opengraph-image.tsx`, `robots.ts`, `sitemap.ts`, `proxy.ts` and the like), route folders
+  (they are URLs), config files and type declarations. Scripts with no export are named for
+  what they do (`createAdminUser.ts`).
 
 ## No bloat (required)
 

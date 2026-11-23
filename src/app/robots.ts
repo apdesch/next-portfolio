@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import siteUrl from "@/lib/site-url";
+import siteUrl from "@/lib/siteUrl";
 
 // Crawlers that collect AI training data. AI search crawlers (OAI-SearchBot,
 // PerplexityBot) stay allowed so the site can still appear in AI search answers.

@@ -1,8 +1,8 @@
 import { type FC, Suspense } from "react";
-import AdminHeader from "@/components/admin/admin-header";
-import AdminSidebar from "@/components/admin/admin-sidebar";
-import ProfileMenu from "@/components/admin/profile-menu";
-import requireAdminSession from "@/lib/require-admin-session";
+import AdminHeader from "@/components/admin/AdminHeader";
+import AdminSidebar from "@/components/admin/AdminSidebar";
+import ProfileMenu from "@/components/admin/ProfileMenu";
+import requireAdminSession from "@/lib/requireAdminSession";
 
 const CurrentUserProfileMenu: FC = async () => {
   const session = await requireAdminSession();

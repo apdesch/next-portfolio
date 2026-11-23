@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { FC } from "react";
-import createProject from "@/app/admin/(console)/projects/create-project";
-import ProjectForm from "@/components/admin/project-form";
+import createProject from "@/app/admin/(console)/projects/createProject";
+import ProjectForm from "@/components/admin/ProjectForm";
 
 const NewProjectPage: FC = () => (
   <div className="mx-auto max-w-4xl p-6">

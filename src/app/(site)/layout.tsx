@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import PublicFrame from "@/components/public-frame";
-import SiteHeader from "@/components/site-header";
+import PublicFrame from "@/components/PublicFrame";
+import SiteHeader from "@/components/SiteHeader";
 
 const SiteLayout: FC<LayoutProps<"/">> = ({ children }) => (
   <PublicFrame>

@@ -1,0 +1,35 @@
+"use server";
+
+import { eq } from "drizzle-orm";
+import { refresh, updateTag } from "next/cache";
+import { notFound } from "next/navigation";
+import getDb from "@/db/getDb";
+import files from "@/db/tables/files";
+import deleteStoredFile from "@/lib/deleteStoredFile";
+import isValidId from "@/lib/isValidId";
+import requireAdminSession from "@/lib/requireAdminSession";
+
+// The Files page binds the file's ID; its confirmation popover submits it.
+const deleteFile = async (fileId: number): Promise<void> => {
+  await requireAdminSession();
+  if (!isValidId(fileId)) notFound();
+  const [deletedFile] = await getDb()
+    .delete(files)
+    .where(eq(files.id, fileId))
+    .returning({
+      url: files.url,
+      thumbnailUrl: files.thumbnailUrl,
+      isResume: files.isResume,
+    });
+  // Deleting the resume removes the link from the Resume page.
+  if (deletedFile?.isResume) updateTag("resume-file");
+  if (deletedFile) {
+    await Promise.all([
+      deleteStoredFile(deletedFile.url),
+      deleteStoredFile(deletedFile.thumbnailUrl),
+    ]);
+  }
+  refresh();
+};
+
+export default deleteFile;
