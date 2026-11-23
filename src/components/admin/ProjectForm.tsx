@@ -34,6 +34,8 @@ type ProjectFieldName = keyof ProjectFormErrors;
 
 type ProjectTextFieldName = Exclude<ProjectFieldName, "image">;
 
+const dateFieldNames: ProjectFieldName[] = ["month", "year"];
+
 const initialFormState: ProjectFormState = {
   fieldErrors: {},
   isSaved: false,
@@ -161,7 +163,7 @@ const ProjectForm: FC<ProjectFormProps> = ({
               />
             </div>
           </div>
-          {(["month", "year"] as const).map(
+          {dateFieldNames.map(
             (name) =>
               state.fieldErrors[name] && (
                 <p

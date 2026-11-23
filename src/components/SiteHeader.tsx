@@ -8,7 +8,7 @@ import getStaggerDelayStyle from "@/lib/getStaggerDelayStyle";
 const navigationLinks = [
   { path: "/resume", label: "Resume" },
   { path: "/about", label: "About" },
-] as const;
+];
 
 const SiteHeader: FC = () => (
   <header className="flex flex-col items-center justify-center">
